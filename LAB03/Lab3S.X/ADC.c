@@ -12,7 +12,8 @@
 #define _XTAL_FREQ 4000000
 
 uint8_t configADC(uint8_t ch) {
-    ADCON0bits.ADCS = 1;    //FOSC/8
+    ADCON0bits.ADCS0 = 1;    //FOSC/8
+    ADCON0bits.ADCS1 = 0;
     ADCON1 = 0;
     
     switch (ch) {   //configura los pines en analogicos 

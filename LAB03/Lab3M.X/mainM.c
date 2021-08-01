@@ -27,20 +27,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pic16f887.h>
 #define _XTAL_FREQ 4000000
 #include "SPI.h"
+#include "USART.h"
 
 // VARIABLES
 uint8_t V1, V2;
-char BUFFER[30];
+uint8_t centena;
+uint8_t decena;
+uint8_t unidad;
+uint8_t cc, dd, uu;
+char BFFR1[10];
+char BFFR2[10];
+char BFFR3[10];
+int variable;
 
 // PROTOTIPOS FUNCIONES 
 void setup(void);
 void putch(char dato);
-void division(char dividendo);
+void division(char valor);
 void msj1(void);
 void msj2(void);
-
+void checkC(void);
+void checkD(void);
+void checkU(void);
 
 //INTERRUPCIONES
 /*void __interrupt() isr(void){
@@ -55,7 +66,7 @@ void main(void){
     setup(); // config generales de I/O
     while (1) // loop
     {
-        PORTCbits.RC2 = 0;
+        PORTCbits.RC2 = 0; //slave select
         __delay_ms(1);
         
         spiWrite(0x0A);
@@ -66,8 +77,56 @@ void main(void){
         V2 = spiRead();
         __delay_ms(1);
         
-        PORTCbits.RC2 = 1;
+        PORTCbits.RC2 = 1; //slave deselect
+        __delay_ms(50);
         
+        division(V1);
+        msj1();
+        __delay_ms(50);
+        division(V2);
+        msj2();
+        __delay_ms(50);
+        
+        printf("Ingrese el valor de centena\r");
+        while(RCIF == 0);
+        cc = RCREG -48;
+        while(RCREG > '2'){
+            checkC();
+        }
+        
+        printf("Ingrese el valor de decena\r");
+        while(RCIF == 0);
+        dd = RCREG -48;
+        if (cc == 2){
+            while(RCREG > '5'){
+                checkD();
+            }
+        }
+        
+        printf("Ingrese el valor de unidad\r");
+        while(RCIF == 0);
+        uu = RCREG -48;
+        if (cc == 2 && dd == 5){
+            while(RCREG > '5'){
+                checkU();
+            }
+        }
+        
+        sprintf(BFFR1, "%d", cc);
+        sprintf(BFFR2, "%d", dd);
+        sprintf(BFFR3, "%d", uu);
+        strcat(BFFR1, BFFR2);
+        strcat(BFFR1, BFFR3);
+        variable = atoi(BFFR1);
+        division(variable);
+        __delay_ms(100);
+        TXREG = centena;
+        __delay_ms(100);
+        TXREG = decena;
+        __delay_ms(100);
+        TXREG = unidad;
+         __delay_ms(100);
+        PORTD = variable; //    
     }
     return;              
 }
@@ -78,12 +137,11 @@ void setup(void){
     ANSEL = 0;
     ANSELH = 0;
     // I/0
-    TRISC1 = 0;
-    TRISC2 = 0;
     TRISB = 0;
     TRISD = 0;
-    PORTCbits.RC2 = 1;
-    PORTCbits.RC1 = 1;
+    //PORTCbits.RC2 = 1;
+    //PORTCbits.RC1 = 1;
+    TRISCbits.TRISC2 = 0;
     //LIMPIAR PUERTOS
     PORTA = 0;
     PORTB = 0;
@@ -98,4 +156,77 @@ void setup(void){
     //SPI
     spiInit(SPI_MASTER_OSC_DIV4, SPI_DATA_SAMPLE_MIDDLE, SPI_CLOCK_IDLE_LOW, SPI_IDLE_2_ACTIVE);
     return;
+}
+
+void division(char valor){ //proceso de division para displays
+    centena = valor/100; //centena = contador dividio 100
+    unidad = valor%100;  //variable de unidad es utilizado como residuo
+    decena = unidad/10; //decena = residuo(unidad) divido 10
+    unidad = unidad%10; //se coloca el residuo en variable unidad para mostrar
+    centena += 48;
+    decena += 48;
+    unidad += 48;
+    return;
+}
+
+void putch(char dato){  //para uso en transmision
+    while(TXIF == 0);
+    TXREG = dato;
+    return;
+}
+
+void msj1(void){
+    printf("\r V1 = ");
+    __delay_ms(50);
+    TXREG = centena;
+    __delay_ms(50);
+    printf(".");
+    __delay_ms(50);
+    TXREG = decena;
+    __delay_ms(50);
+    TXREG = unidad;
+    __delay_ms(50);
+    printf("\r\r");
+    
+    return;
+}
+
+void msj2(void){
+    printf("\rV2 = ");
+    __delay_ms(50);
+    TXREG = centena;
+    __delay_ms(50);
+    printf(".");
+    __delay_ms(50);
+    TXREG = decena;
+    __delay_ms(50);
+    TXREG = unidad;
+    __delay_ms(50);
+    printf("\r\r");
+    
+    return;
+}
+
+void checkC(void){
+    if(RCREG > 2){
+           printf("Elija un valor entre 0 y 2\r");   
+       }
+       while(RCIF == 0);
+       cc = RCREG -48;
+}
+
+void checkD(void){
+    if(RCREG > 5){
+           printf("Elija un valor menor o igual a 5\r");   
+       }
+       while(RCIF == 0);
+       dd = RCREG -48;
+}
+
+void checkU(void){
+    if(RCREG > 5){
+           printf("Elija un valor menor o igual a 5\r");   
+       }
+       while(RCIF == 0);
+       uu = RCREG -48;
 }

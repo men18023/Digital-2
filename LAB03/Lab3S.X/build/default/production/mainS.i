@@ -2826,6 +2826,7 @@ extern char * ftoa(float f, int * status);
 # 28 "mainS.c" 2
 
 
+
 # 1 "./SPI.h" 1
 # 13 "./SPI.h"
 typedef enum
@@ -2860,7 +2861,7 @@ void spiInit(Spi_Type, Spi_Data_Sample, Spi_Clock_Idle, Spi_Transmit_Edge);
 void spiWrite(char);
 unsigned spiDataReady();
 char spiRead();
-# 30 "mainS.c" 2
+# 31 "mainS.c" 2
 
 # 1 "./ADC.h" 1
 # 12 "./ADC.h"
@@ -2869,7 +2870,7 @@ char spiRead();
 
 
 uint8_t configADC(uint8_t ch);
-# 31 "mainS.c" 2
+# 32 "mainS.c" 2
 
 
 
@@ -2878,15 +2879,7 @@ uint8_t T1, T2;
 
 
 void setup(void);
-
-
-void __attribute__((picinterrupt(("")))) isr(void){
-
-
-    }
-
-
-
+# 49 "mainS.c"
 void main(void){
 
     setup();
@@ -2918,6 +2911,7 @@ void setup(void){
 
     TRISAbits.TRISA0 = 1;
     TRISAbits.TRISA1 = 1;
+    TRISAbits.TRISA5 = 1;
     TRISB = 0;
 
 

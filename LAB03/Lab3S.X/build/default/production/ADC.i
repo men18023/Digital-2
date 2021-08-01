@@ -2644,7 +2644,8 @@ uint8_t configADC(uint8_t ch);
 
 
 uint8_t configADC(uint8_t ch) {
-    ADCON0bits.ADCS = 1;
+    ADCON0bits.ADCS0 = 1;
+    ADCON0bits.ADCS1 = 0;
     ADCON1 = 0;
 
     switch (ch) {

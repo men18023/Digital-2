@@ -26,6 +26,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <pic16f887.h>
 #define _XTAL_FREQ 4000000
 #include "SPI.h"
 #include "ADC.h"
@@ -38,10 +39,10 @@ uint8_t T1, T2;
 void setup(void);
 
 //INTERRUPCIONES
-void __interrupt() isr(void){
+/*void __interrupt() isr(void){
     //SPI
  
-    }
+    }*/
 
 
 // loop principal
@@ -76,6 +77,7 @@ void setup(void){
     // I/0
     TRISAbits.TRISA0 = 1;
     TRISAbits.TRISA1 = 1;
+    TRISAbits.TRISA5 = 1;
     TRISB = 0;
     //TRISD = 0;
     //PORTCbits.RC2 = 1;

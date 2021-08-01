@@ -3,7 +3,7 @@
 [d edition pro ]
 [d chip 16F887 ]
 [d frameptr 0 ]
-"95 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\mainS.c
+"97 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\mainS.c
 [e E1473 . `uc
 SPI_MASTER_OSC_DIV4 32
 SPI_MASTER_OSC_DIV16 33
@@ -55,11 +55,9 @@ SPI_ACTIVE_2_IDLE 64
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"41 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\mainS.c
-[v _isr isr `II(v  1 e 1 0 ]
-"48
+"49 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\mainS.c
 [v _main main `(v  1 e 1 0 ]
-"72
+"73
 [v _setup setup `(v  1 e 1 0 ]
 "11 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\SPI.c
 [v _spiInit spiInit `(v  1 e 1 0 ]
@@ -120,7 +118,7 @@ SPI_ACTIVE_2_IDLE 64
 [v _TRISAbits TRISAbits `VES95  1 e 1 @133 ]
 "1478
 [v _TRISB TRISB `VEuc  1 e 1 @134 ]
-[s S366 . 1 `uc 1 TRISB0 1 0 :1:0 
+[s S361 . 1 `uc 1 TRISB0 1 0 :1:0 
 `uc 1 TRISB1 1 0 :1:1 
 `uc 1 TRISB2 1 0 :1:2 
 `uc 1 TRISB3 1 0 :1:3 
@@ -130,19 +128,19 @@ SPI_ACTIVE_2_IDLE 64
 `uc 1 TRISB7 1 0 :1:7 
 ]
 "1495
-[u S375 . 1 `S366 1 . 1 0 ]
-[v _TRISBbits TRISBbits `VES375  1 e 1 @134 ]
-[s S353 . 1 `uc 1 TRISE0 1 0 :1:0 
+[u S370 . 1 `S361 1 . 1 0 ]
+[v _TRISBbits TRISBbits `VES370  1 e 1 @134 ]
+[s S348 . 1 `uc 1 TRISE0 1 0 :1:0 
 `uc 1 TRISE1 1 0 :1:1 
 `uc 1 TRISE2 1 0 :1:2 
 `uc 1 TRISE3 1 0 :1:3 
 ]
 "1677
-[u S358 . 1 `S353 1 . 1 0 ]
-[v _TRISEbits TRISEbits `VES358  1 e 1 @137 ]
+[u S353 . 1 `S348 1 . 1 0 ]
+[v _TRISEbits TRISEbits `VES353  1 e 1 @137 ]
 "2177
 [v _SSPSTAT SSPSTAT `VEuc  1 e 1 @148 ]
-[s S184 . 1 `uc 1 BF 1 0 :1:0 
+[s S179 . 1 `uc 1 BF 1 0 :1:0 
 `uc 1 UA 1 0 :1:1 
 `uc 1 R_nW 1 0 :1:2 
 `uc 1 S 1 0 :1:3 
@@ -152,44 +150,44 @@ SPI_ACTIVE_2_IDLE 64
 `uc 1 SMP 1 0 :1:7 
 ]
 "2231
-[s S193 . 1 `uc 1 . 1 0 :2:0 
+[s S188 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 D 1 0 :1:5 
 ]
-[s S198 . 1 `uc 1 . 1 0 :2:0 
+[s S193 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 I2C_READ 1 0 :1:2 
 `uc 1 I2C_START 1 0 :1:3 
 `uc 1 I2C_STOP 1 0 :1:4 
 `uc 1 I2C_DATA 1 0 :1:5 
 ]
-[s S204 . 1 `uc 1 . 1 0 :2:0 
+[s S199 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nW 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nA 1 0 :1:5 
 ]
-[s S209 . 1 `uc 1 . 1 0 :2:0 
+[s S204 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nWRITE 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nADDRESS 1 0 :1:5 
 ]
-[s S214 . 1 `uc 1 . 1 0 :2:0 
+[s S209 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R_W 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 D_A 1 0 :1:5 
 ]
-[s S219 . 1 `uc 1 . 1 0 :2:0 
+[s S214 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 READ_WRITE 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 DATA_ADDRESS 1 0 :1:5 
 ]
-[u S224 . 1 `S184 1 . 1 0 `S193 1 . 1 0 `S198 1 . 1 0 `S204 1 . 1 0 `S209 1 . 1 0 `S214 1 . 1 0 `S219 1 . 1 0 ]
-[v _SSPSTATbits SSPSTATbits `VES224  1 e 1 @148 ]
+[u S219 . 1 `S179 1 . 1 0 `S188 1 . 1 0 `S193 1 . 1 0 `S199 1 . 1 0 `S204 1 . 1 0 `S209 1 . 1 0 `S214 1 . 1 0 ]
+[v _SSPSTATbits SSPSTATbits `VES219  1 e 1 @148 ]
 "2977
 [v _ADCON1 ADCON1 `VEuc  1 e 1 @159 ]
 "3387
 [v _ANSEL ANSEL `VEuc  1 e 1 @392 ]
-[s S332 . 1 `uc 1 ANS0 1 0 :1:0 
+[s S327 . 1 `uc 1 ANS0 1 0 :1:0 
 `uc 1 ANS1 1 0 :1:1 
 `uc 1 ANS2 1 0 :1:2 
 `uc 1 ANS3 1 0 :1:3 
@@ -199,11 +197,11 @@ SPI_ACTIVE_2_IDLE 64
 `uc 1 ANS7 1 0 :1:7 
 ]
 "3404
-[u S341 . 1 `S332 1 . 1 0 ]
-[v _ANSELbits ANSELbits `VES341  1 e 1 @392 ]
+[u S336 . 1 `S327 1 . 1 0 ]
+[v _ANSELbits ANSELbits `VES336  1 e 1 @392 ]
 "3449
 [v _ANSELH ANSELH `VEuc  1 e 1 @393 ]
-[s S387 . 1 `uc 1 ANS8 1 0 :1:0 
+[s S382 . 1 `uc 1 ANS8 1 0 :1:0 
 `uc 1 ANS9 1 0 :1:1 
 `uc 1 ANS10 1 0 :1:2 
 `uc 1 ANS11 1 0 :1:3 
@@ -211,8 +209,8 @@ SPI_ACTIVE_2_IDLE 64
 `uc 1 ANS13 1 0 :1:5 
 ]
 "3464
-[u S394 . 1 `S387 1 . 1 0 ]
-[v _ANSELHbits ANSELHbits `VES394  1 e 1 @393 ]
+[u S389 . 1 `S382 1 . 1 0 ]
+[v _ANSELHbits ANSELHbits `VES389  1 e 1 @393 ]
 "4205
 [v _RE0 RE0 `VEb  1 e 0 @72 ]
 "4277
@@ -221,13 +219,13 @@ SPI_ACTIVE_2_IDLE 64
 [v _TRISC3 TRISC3 `VEb  1 e 0 @1083 ]
 "4463
 [v _TRISC5 TRISC5 `VEb  1 e 0 @1085 ]
-"34 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\mainS.c
+"35 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\mainS.c
 [v _V1 V1 `uc  1 e 1 0 ]
 [v _V2 V2 `uc  1 e 1 0 ]
-"48
+"49
 [v _main main `(v  1 e 1 0 ]
 {
-"69
+"70
 } 0
 "33 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\SPI.c
 [v _spiWrite spiWrite `(v  1 e 1 0 ]
@@ -235,24 +233,24 @@ SPI_ACTIVE_2_IDLE 64
 [v spiWrite@dat dat `uc  1 a 1 wreg ]
 [v spiWrite@dat dat `uc  1 a 1 wreg ]
 "35
-[v spiWrite@dat dat `uc  1 a 1 2 ]
+[v spiWrite@dat dat `uc  1 a 1 0 ]
 "36
 } 0
-"72 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\mainS.c
+"73 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\mainS.c
 [v _setup setup `(v  1 e 1 0 ]
 {
-"97
+"99
 } 0
 "11 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\SPI.c
 [v _spiInit spiInit `(v  1 e 1 0 ]
 {
 [v spiInit@sType sType `E1264  1 a 1 wreg ]
 [v spiInit@sType sType `E1264  1 a 1 wreg ]
-[v spiInit@sDataSample sDataSample `E1272  1 p 1 2 ]
-[v spiInit@sClockIdle sClockIdle `E1276  1 p 1 3 ]
-[v spiInit@sTransmitEdge sTransmitEdge `E1280  1 p 1 4 ]
+[v spiInit@sDataSample sDataSample `E1272  1 p 1 0 ]
+[v spiInit@sClockIdle sClockIdle `E1276  1 p 1 1 ]
+[v spiInit@sTransmitEdge sTransmitEdge `E1280  1 p 1 2 ]
 "13
-[v spiInit@sType sType `E1264  1 a 1 5 ]
+[v spiInit@sType sType `E1264  1 a 1 3 ]
 "26
 } 0
 "14 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\ADC.c
@@ -260,11 +258,6 @@ SPI_ACTIVE_2_IDLE 64
 {
 [v configADC@ch ch `uc  1 a 1 wreg ]
 [v configADC@ch ch `uc  1 a 1 wreg ]
-[v configADC@ch ch `uc  1 a 1 4 ]
-"105
-} 0
-"41 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB03\Lab3S.X\mainS.c
-[v _isr isr `II(v  1 e 1 0 ]
-{
-"44
+[v configADC@ch ch `uc  1 a 1 2 ]
+"106
 } 0
