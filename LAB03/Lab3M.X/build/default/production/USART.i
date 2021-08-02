@@ -2502,10 +2502,10 @@ void configUSART(void){
 
     TXSTAbits.SYNC = 0;
     TXSTAbits.BRGH = 1;
-    BAUDCTLbits.BRG16 = 1;
+    BAUDCTLbits.BRG16 = 0;
 
-    SPBRG = 103;
-    SPBRGH = 0;
+    SPBRG = 25;
+    SPBRGH = 1;
 
 
     RCSTAbits.SPEN = 1;
@@ -2518,8 +2518,6 @@ void configUSART(void){
 
     INTCONbits.GIE = 1;
     INTCONbits.PEIE = 1;
-
-
     PIR1bits.TXIF = 0;
     PIR1bits.RCIF = 0;
 

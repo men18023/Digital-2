@@ -2903,94 +2903,54 @@ void configUSART(void);
 
 
 
-uint8_t V1, V2;
-uint8_t centena;
-uint8_t decena;
-uint8_t unidad;
-uint8_t cc, dd, uu;
-char BFFR1[10];
-char BFFR2[10];
-char BFFR3[10];
-int variable;
+char V1, V2;
+char centena, decena, unidad, residuo;
+char cc, dd, uu;
+char temp;
+int completo;
+
+
 
 
 void setup(void);
-void putch(char dato);
-void division(char valor);
+void ReadSlave(void);
+char division (char valor);
 void msj1(void);
 void msj2(void);
-void checkC(void);
-void checkD(void);
-void checkU(void);
-# 64 "mainM.c"
+void ingreso(void);
+
+
+
+
+
+
+
 void main(void){
 
     setup();
+
     while (1)
     {
-        PORTCbits.RC2 = 0;
-        _delay((unsigned long)((1)*(4000000/4000.0)));
+       PORTCbits.RC2 = 0;
+       _delay((unsigned long)((1)*(4000000/4000.0)));
 
-        spiWrite(0x0A);
-        V1 = spiRead();
-        _delay((unsigned long)((1)*(4000000/4000.0)));
+       spiWrite(0x0A);
+       V1 = spiRead();
+       _delay((unsigned long)((1)*(4000000/4000.0)));
+       spiWrite(0x0A);
+       V2 = spiRead();
+       _delay((unsigned long)((1)*(4000000/4000.0)));
 
-        spiWrite(0x0A);
-        V2 = spiRead();
-        _delay((unsigned long)((1)*(4000000/4000.0)));
 
-        PORTCbits.RC2 = 1;
-        _delay((unsigned long)((50)*(4000000/4000.0)));
+       _delay((unsigned long)((1)*(4000000/4000.0)));
+       PORTCbits.RC2 = 1;
+       msj1();
+       msj2();
+       ingreso();
 
-        division(V1);
-        msj1();
-        _delay((unsigned long)((50)*(4000000/4000.0)));
-        division(V2);
-        msj2();
-        _delay((unsigned long)((50)*(4000000/4000.0)));
-
-        printf("Ingrese el valor de centena\r");
-        while(RCIF == 0);
-        cc = RCREG -48;
-        while(RCREG > '2'){
-            checkC();
-        }
-
-        printf("Ingrese el valor de decena\r");
-        while(RCIF == 0);
-        dd = RCREG -48;
-        if (cc == 2){
-            while(RCREG > '5'){
-                checkD();
-            }
-        }
-
-        printf("Ingrese el valor de unidad\r");
-        while(RCIF == 0);
-        uu = RCREG -48;
-        if (cc == 2 && dd == 5){
-            while(RCREG > '5'){
-                checkU();
-            }
-        }
-
-        sprintf(BFFR1, "%d", cc);
-        sprintf(BFFR2, "%d", dd);
-        sprintf(BFFR3, "%d", uu);
-        strcat(BFFR1, BFFR2);
-        strcat(BFFR1, BFFR3);
-        variable = atoi(BFFR1);
-        division(variable);
-        _delay((unsigned long)((100)*(4000000/4000.0)));
-        TXREG = centena;
-        _delay((unsigned long)((100)*(4000000/4000.0)));
-        TXREG = decena;
-        _delay((unsigned long)((100)*(4000000/4000.0)));
-        TXREG = unidad;
-         _delay((unsigned long)((100)*(4000000/4000.0)));
-        PORTD = variable;
-    }
-    return;
+       PORTB = completo;
+# 97 "mainM.c"
+}
 }
 
 
@@ -2999,36 +2959,23 @@ void setup(void){
     ANSEL = 0;
     ANSELH = 0;
 
+    TRISC2 = 0;
     TRISB = 0;
-    TRISD = 0;
 
-
-    TRISCbits.TRISC2 = 0;
-
-    PORTA = 0;
     PORTB = 0;
     PORTC = 0;
     PORTD = 0;
-    PORTE = 0;
+    PORTCbits.RC2 = 1;
+
+    spiInit(SPI_MASTER_OSC_DIV4, SPI_DATA_SAMPLE_MIDDLE,
+            SPI_CLOCK_IDLE_LOW, SPI_IDLE_2_ACTIVE);
 
     OSCCONbits.IRCF0 = 0;
     OSCCONbits.IRCF1 = 1;
     OSCCONbits.IRCF2 = 1;
     OSCCONbits.SCS = 1;
 
-    spiInit(SPI_MASTER_OSC_DIV4, SPI_DATA_SAMPLE_MIDDLE, SPI_CLOCK_IDLE_LOW, SPI_IDLE_2_ACTIVE);
-    return;
-}
-
-void division(char valor){
-    centena = valor/100;
-    unidad = valor%100;
-    decena = unidad/10;
-    unidad = unidad%10;
-    centena += 48;
-    decena += 48;
-    unidad += 48;
-    return;
+    configUSART();
 }
 
 void putch(char dato){
@@ -3037,58 +2984,104 @@ void putch(char dato){
     return;
 }
 
-void msj1(void){
-    printf("\r V1 = ");
-    _delay((unsigned long)((50)*(4000000/4000.0)));
+char division(char valor){
+    centena = valor/50;
+    residuo = valor%100;
+    decena = residuo/10;
+    unidad = residuo%10;
+    centena += 48;
+    decena += 48;
+    unidad += 48;
+}
+
+
+void msj1 (void){
+    division(V1);
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    printf("\rValor en el Pot 1:\r");
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    printf("  ");
+    _delay((unsigned long)((100)*(4000000/4000.0)));
     TXREG = centena;
-    _delay((unsigned long)((50)*(4000000/4000.0)));
-    printf(".");
-    _delay((unsigned long)((50)*(4000000/4000.0)));
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    TXREG = 46;
+    _delay((unsigned long)((100)*(4000000/4000.0)));
     TXREG = decena;
-    _delay((unsigned long)((50)*(4000000/4000.0)));
+    _delay((unsigned long)((100)*(4000000/4000.0)));
     TXREG = unidad;
-    _delay((unsigned long)((50)*(4000000/4000.0)));
-    printf("\r\r");
-
-    return;
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    printf(" V");
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    printf("\r");
 }
 
-void msj2(void){
-    printf("\rV2 = ");
-    _delay((unsigned long)((50)*(4000000/4000.0)));
+void msj2 (void){
+    division(V2);
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    printf("\rValor en el Pot 2:\r");
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    printf("  ");
+    _delay((unsigned long)((100)*(4000000/4000.0)));
     TXREG = centena;
-    _delay((unsigned long)((50)*(4000000/4000.0)));
-    printf(".");
-    _delay((unsigned long)((50)*(4000000/4000.0)));
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    TXREG = 46;
+    _delay((unsigned long)((100)*(4000000/4000.0)));
     TXREG = decena;
-    _delay((unsigned long)((50)*(4000000/4000.0)));
+    _delay((unsigned long)((100)*(4000000/4000.0)));
     TXREG = unidad;
-    _delay((unsigned long)((50)*(4000000/4000.0)));
-    printf("\r\r");
-
-    return;
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    printf(" V");
+    _delay((unsigned long)((100)*(4000000/4000.0)));
+    printf("\r");
 }
 
-void checkC(void){
-    if(RCREG > 2){
-           printf("Elija un valor entre 0 y 2\r");
-       }
+void ingreso(void){
+    printf("\rIngrese el valor de centena: (0-2)\r");
+      checkC:
        while(RCIF == 0);
-       cc = RCREG -48;
+        cc = RCREG -48;
+
+       while(RCREG > '2'){
+           goto checkC;
+       }
+
+    printf("Ingrese el valor de decena: (0-5)\r");
+      checkD:
+        while(RCIF == 0);
+         dd = RCREG -48;
+
+        if(cc == 2){
+           while(RCREG > '5'){
+               goto checkD;
+           }
+       }
+
+    printf("Ingrese el valor de unidad: (0-5)\r");
+      checkU:
+       while(RCIF == 0);
+        uu = RCREG - 48;
+
+       if(cc == 2 && dd == 5){
+           while(RCREG > '5'){
+               goto checkU;
+           }
+       }
+      temp = concatenado(cc, dd);
+      completo = concatenado(temp, uu);
+      _delay((unsigned long)((250)*(4000000/4000.0)));
+    printf("\rEl valor seleccionado es: %d\r", completo);
 }
 
-void checkD(void){
-    if(RCREG > 5){
-           printf("Elija un valor menor o igual a 5\r");
-       }
-       while(RCIF == 0);
-       dd = RCREG -48;
-}
+int concatenado(int a, int b)
+{
+    char BFFR1[20];
+    char BFFR2[20];
 
-void checkU(void){
-    if(RCREG > 5){
-           printf("Elija un valor menor o igual a 5\r");
-       }
-       while(RCIF == 0);
-       uu = RCREG -48;
+    sprintf(BFFR1, "%d", a);
+    sprintf(BFFR2, "%d", b);
+
+    strcat(BFFR1, BFFR2);
+
+    int c = atoi(BFFR1);
+    return c;
 }

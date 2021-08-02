@@ -2637,102 +2637,57 @@ typedef uint16_t uintptr_t;
 # 12 "./ADC.h" 2
 
 
-uint8_t configADC(uint8_t ch);
+void configADC(char fr);
 # 10 "ADC.c" 2
 
 
 
 
-uint8_t configADC(uint8_t ch) {
-    ADCON0bits.ADCS0 = 1;
-    ADCON0bits.ADCS1 = 0;
-    ADCON1 = 0;
-
-    switch (ch) {
+void configADC(char fr) {
+    switch(fr){
         case 0:
-            TRISAbits.TRISA0 = 1;
-            ANSELbits.ANS0 = 1;
             ADCON0bits.CHS = 0;
+            _delay((unsigned long)((100)*(4000000/4000000.0)));
+
+            ADCON0bits.ADCS0 = 0;
+            ADCON0bits.ADCS1 = 0;
+            ADCON0bits.ADON = 1;
+            ADCON1bits.ADFM = 0;
+            ADCON1bits.VCFG1 = 0;
+            ADCON1bits.VCFG0 = 0;
             break;
         case 1:
-            TRISAbits.TRISA1=1;
-            ANSELbits.ANS1=1;
-            ADCON0bits.CHS=1;
+            ADCON0bits.CHS = 0;
+            _delay((unsigned long)((100)*(4000000/4000000.0)));
+
+            ADCON0bits.ADCS0 = 1;
+            ADCON0bits.ADCS1 = 0;
+            ADCON0bits.ADON = 1;
+            ADCON1bits.ADFM = 0;
+            ADCON1bits.VCFG1 = 0;
+            ADCON1bits.VCFG0 = 0;
             break;
         case 2:
-            TRISAbits.TRISA2=1;
-            ANSELbits.ANS2=1;
-            ADCON0bits.CHS=2;
+            ADCON0bits.CHS = 0;
+            _delay((unsigned long)((100)*(4000000/4000000.0)));
+
+            ADCON0bits.ADCS0 = 0;
+            ADCON0bits.ADCS1 = 1;
+            ADCON0bits.ADON = 1;
+            ADCON1bits.ADFM = 0;
+            ADCON1bits.VCFG1 = 0;
+            ADCON1bits.VCFG0 = 0;
             break;
         case 3:
-            TRISAbits.TRISA3=1;
-            ANSELbits.ANS3=1;
-            ADCON0bits.CHS=3;
-            break;
-        case 4:
-            TRISAbits.TRISA5=1;
-            ANSELbits.ANS4=1;
-            ADCON0bits.CHS=4;
-            break;
-        case 5:
-            TRISEbits.TRISE0=1;
-            ANSELbits.ANS5=1;
-            ADCON0bits.CHS=5;
-            break;
-        case 6:
-            TRISEbits.TRISE1=1;
-            ANSELbits.ANS6=1;
-            ADCON0bits.CHS=6;
-            break;
-        case 7:
-            TRISEbits.TRISE2=1;
-            ANSELbits.ANS7=1;
-            ADCON0bits.CHS=7;
-            break;
-        case 8:
-            TRISBbits.TRISB2=1;
-            ANSELHbits.ANS8=1;
-            ADCON0bits.CHS=8;
-            break;
-        case 9:
-            TRISBbits.TRISB3=1;
-            ANSELHbits.ANS9=1;
-            ADCON0bits.CHS=9;
-            break;
-        case 10:
-            TRISBbits.TRISB1=1;
-            ANSELHbits.ANS10=1;
-            ADCON0bits.CHS=10;
-            break;
-        case 11:
-            TRISBbits.TRISB4=1;
-            ANSELHbits.ANS11=1;
-            ADCON0bits.CHS=11;
-            break;
-        case 12:
-            TRISBbits.TRISB0=1;
-            ANSELHbits.ANS12=1;
-            ADCON0bits.CHS=12;
-            break;
-        case 13:
-            TRISBbits.TRISB5=1;
-            ANSELHbits.ANS13=1;
-            ADCON0bits.CHS=13;
-            break;
-        default:
-            return 0;
-    }
+            ADCON0bits.CHS = 0;
+            _delay((unsigned long)((100)*(4000000/4000000.0)));
 
-    ADCON0bits.ADON = 1;
-    _delay((unsigned long)((0.25)*(4000000/4000.0)));
-    ADCON0bits.GO = 1;
-
-    resul:
-    if (ADCON0bits.GO_DONE == 1){
-        goto resul;
-    }
-    else{
-        ADCON0bits.ADON = 0;
-        return ADRESH;
+            ADCON0bits.ADCS0 = 1;
+            ADCON0bits.ADCS1 = 1;
+            ADCON0bits.ADON = 1;
+            ADCON1bits.ADFM = 0;
+            ADCON1bits.VCFG1 = 0;
+            ADCON1bits.VCFG0 = 0;
+            break;
     }
 }

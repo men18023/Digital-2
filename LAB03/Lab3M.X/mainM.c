@@ -33,86 +33,53 @@
 #include "USART.h"
 
 // VARIABLES
-uint8_t V1, V2;
-uint8_t centena;
-uint8_t decena;
-uint8_t unidad;
-uint8_t cc, dd, uu;
-char BFFR1[10];
-char BFFR2[10];
-char BFFR3[10];
-int variable;
+char V1, V2;
+char centena, decena, unidad, residuo;
+char cc, dd, uu;
+char temp;
+int completo;
+
+
 
 // PROTOTIPOS FUNCIONES 
 void setup(void);
-void putch(char dato);
-void division(char valor);
+void ReadSlave(void);
+char division (char valor);
 void msj1(void);
 void msj2(void);
-void checkC(void);
-void checkD(void);
-void checkU(void);
+void ingreso(void);
 
 //INTERRUPCIONES
 /*void __interrupt() isr(void){
-    // pushbuttons
     
     }
 */
-
 // loop principal
 void main(void){
     
     setup(); // config generales de I/O
+    
     while (1) // loop
     {
-        PORTCbits.RC2 = 0; //slave select
-        __delay_ms(1);
-        
-        spiWrite(0x0A);
-        V1 = spiRead();
-        __delay_ms(1);
-        
-        spiWrite(0x0A);
-        V2 = spiRead();
-        __delay_ms(1);
-        
-        PORTCbits.RC2 = 1; //slave deselect
-        __delay_ms(50);
-        
-        division(V1);
-        msj1();
-        __delay_ms(50);
-        division(V2);
-        msj2();
-        __delay_ms(50);
-        
-        printf("Ingrese el valor de centena\r");
-        while(RCIF == 0);
-        cc = RCREG -48;
-        while(RCREG > '2'){
-            checkC();
-        }
-        
-        printf("Ingrese el valor de decena\r");
-        while(RCIF == 0);
-        dd = RCREG -48;
-        if (cc == 2){
-            while(RCREG > '5'){
-                checkD();
-            }
-        }
-        
-        printf("Ingrese el valor de unidad\r");
-        while(RCIF == 0);
-        uu = RCREG -48;
-        if (cc == 2 && dd == 5){
-            while(RCREG > '5'){
-                checkU();
-            }
-        }
-        
-        sprintf(BFFR1, "%d", cc);
+       PORTCbits.RC2 = 0;//Slave delect
+       __delay_ms(1);
+       
+       spiWrite(0x0A);
+       V1 = spiRead();
+       __delay_ms(1);
+       spiWrite(0x0A);
+       V2 = spiRead();
+       __delay_ms(1);
+       
+       
+       __delay_ms(1);
+       PORTCbits.RC2 = 1;//Slave deselect 
+       msj1();
+       msj2();
+       ingreso();
+       
+       PORTB = completo;
+        /*sprintf(BFFR1, "%d", cc);
         sprintf(BFFR2, "%d", dd);
         sprintf(BFFR3, "%d", uu);
         strcat(BFFR1, BFFR2);
@@ -126,9 +93,8 @@ void main(void){
         __delay_ms(100);
         TXREG = unidad;
          __delay_ms(100);
-        PORTD = variable; //    
-    }
-    return;              
+        PORTD = variable; //    */             
+}
 }
 
 // configuraciones generales
@@ -137,36 +103,23 @@ void setup(void){
     ANSEL = 0;
     ANSELH = 0;
     // I/0
+    TRISC2 = 0;
     TRISB = 0;
-    TRISD = 0;
-    //PORTCbits.RC2 = 1;
-    //PORTCbits.RC1 = 1;
-    TRISCbits.TRISC2 = 0;
     //LIMPIAR PUERTOS
-    PORTA = 0;
     PORTB = 0;
     PORTC = 0;
     PORTD = 0;
-    PORTE = 0;
+    PORTCbits.RC2 = 1;
+    //SPI
+    spiInit(SPI_MASTER_OSC_DIV4, SPI_DATA_SAMPLE_MIDDLE,
+            SPI_CLOCK_IDLE_LOW, SPI_IDLE_2_ACTIVE);
     //RELOJ INTERNO
-    OSCCONbits.IRCF0 = 0; // 4mhz
+    OSCCONbits.IRCF0 = 0;//reloj  4mhz
     OSCCONbits.IRCF1 = 1;
     OSCCONbits.IRCF2 = 1;
     OSCCONbits.SCS = 1;  
-    //SPI
-    spiInit(SPI_MASTER_OSC_DIV4, SPI_DATA_SAMPLE_MIDDLE, SPI_CLOCK_IDLE_LOW, SPI_IDLE_2_ACTIVE);
-    return;
-}
-
-void division(char valor){ //proceso de division para displays
-    centena = valor/100; //centena = contador dividio 100
-    unidad = valor%100;  //variable de unidad es utilizado como residuo
-    decena = unidad/10; //decena = residuo(unidad) divido 10
-    unidad = unidad%10; //se coloca el residuo en variable unidad para mostrar
-    centena += 48;
-    decena += 48;
-    unidad += 48;
-    return;
+    //USART
+    configUSART();
 }
 
 void putch(char dato){  //para uso en transmision
@@ -175,58 +128,104 @@ void putch(char dato){  //para uso en transmision
     return;
 }
 
-void msj1(void){
-    printf("\r V1 = ");
-    __delay_ms(50);
+char division(char valor){ //proceso de division para displays
+    centena = valor/50; //centena = contador dividio 50
+    residuo = valor%100; //variable utilizado como residuo
+    decena = residuo/10; //decena = residuo divido 10
+    unidad = residuo%10; //se coloca el residuo en variable unidad para mostrar
+    centena += 48;
+    decena += 48;
+    unidad += 48;
+}
+
+
+void msj1 (void){
+    division(V1);
+    __delay_ms(100); //Tiempos para el despliegue de los caracteres
+    printf("\rValor en el Pot 1:\r");
+    __delay_ms(100);
+    printf("  ");
+    __delay_ms(100);
     TXREG = centena;
-    __delay_ms(50);
-    printf(".");
-    __delay_ms(50);
+    __delay_ms(100);
+    TXREG = 46;
+    __delay_ms(100);
     TXREG = decena;
-    __delay_ms(50);
+    __delay_ms(100);
     TXREG = unidad;
-    __delay_ms(50);
-    printf("\r\r");
-    
-    return;
+    __delay_ms(100);
+    printf(" V");
+    __delay_ms(100);
+    printf("\r");
 }
-
-void msj2(void){
-    printf("\rV2 = ");
-    __delay_ms(50);
+    
+void msj2 (void){
+    division(V2);
+    __delay_ms(100); 
+    printf("\rValor en el Pot 2:\r");
+    __delay_ms(100);
+    printf("  ");
+    __delay_ms(100);
     TXREG = centena;
-    __delay_ms(50);
-    printf(".");
-    __delay_ms(50);
+    __delay_ms(100);
+    TXREG = 46;
+    __delay_ms(100);
     TXREG = decena;
-    __delay_ms(50);
+    __delay_ms(100);
     TXREG = unidad;
-    __delay_ms(50);
-    printf("\r\r");
+    __delay_ms(100);
+    printf(" V");
+    __delay_ms(100);
+    printf("\r");
+}
+
+void ingreso(void){
+    printf("\rIngrese el valor de centena: (0-2)\r");
+      checkC:  
+       while(RCIF == 0);
+        cc = RCREG -48;  
+
+       while(RCREG > '2'){ 
+           goto checkC;
+       }
     
-    return;
+    printf("Ingrese el valor de decena: (0-5)\r");
+      checkD:
+        while(RCIF == 0); 
+         dd = RCREG -48; 
+
+        if(cc == 2){
+           while(RCREG > '5'){
+               goto checkD;
+           }
+       }
+
+    printf("Ingrese el valor de unidad: (0-5)\r");
+      checkU:
+       while(RCIF == 0); 
+        uu = RCREG - 48;
+
+       if(cc == 2 && dd == 5){
+           while(RCREG > '5'){
+               goto checkU;
+           }
+       }
+      temp = concatenado(cc, dd);
+      completo = concatenado(temp, uu);
+      __delay_ms(250);
+    printf("\rEl valor seleccionado es: %d\r", completo);
 }
 
-void checkC(void){
-    if(RCREG > 2){
-           printf("Elija un valor entre 0 y 2\r");   
-       }
-       while(RCIF == 0);
-       cc = RCREG -48;
-}
-
-void checkD(void){
-    if(RCREG > 5){
-           printf("Elija un valor menor o igual a 5\r");   
-       }
-       while(RCIF == 0);
-       dd = RCREG -48;
-}
-
-void checkU(void){
-    if(RCREG > 5){
-           printf("Elija un valor menor o igual a 5\r");   
-       }
-       while(RCIF == 0);
-       uu = RCREG -48;
+int concatenado(int a, int b)
+{   
+    char BFFR1[20];
+    char BFFR2[20];
+    // Convertir int a strng
+    sprintf(BFFR1, "%d", a);
+    sprintf(BFFR2, "%d", b);
+    // concatenar los strng
+    strcat(BFFR1, BFFR2);
+    // regrear a int
+    int c = atoi(BFFR1);
+    return c;
 }

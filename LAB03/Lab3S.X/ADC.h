@@ -11,7 +11,7 @@
 #include <xc.h> 
 #include <stdint.h>
 
-uint8_t configADC(uint8_t ch);
+void configADC(char fr);
 
 #endif	/* ADC_H */
 

@@ -2740,93 +2740,6 @@ extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 # 27 "mainS.c" 2
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdlib.h" 1 3
-
-
-
-
-
-
-typedef unsigned short wchar_t;
-
-
-
-
-
-
-
-typedef struct {
- int rem;
- int quot;
-} div_t;
-typedef struct {
- unsigned rem;
- unsigned quot;
-} udiv_t;
-typedef struct {
- long quot;
- long rem;
-} ldiv_t;
-typedef struct {
- unsigned long quot;
- unsigned long rem;
-} uldiv_t;
-# 65 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdlib.h" 3
-extern double atof(const char *);
-extern double strtod(const char *, const char **);
-extern int atoi(const char *);
-extern unsigned xtoi(const char *);
-extern long atol(const char *);
-
-
-
-extern long strtol(const char *, char **, int);
-
-extern int rand(void);
-extern void srand(unsigned int);
-extern void * calloc(size_t, size_t);
-extern div_t div(int numer, int denom);
-extern udiv_t udiv(unsigned numer, unsigned denom);
-extern ldiv_t ldiv(long numer, long denom);
-extern uldiv_t uldiv(unsigned long numer,unsigned long denom);
-
-
-
-extern unsigned long _lrotl(unsigned long value, unsigned int shift);
-extern unsigned long _lrotr(unsigned long value, unsigned int shift);
-extern unsigned int _rotl(unsigned int value, unsigned int shift);
-extern unsigned int _rotr(unsigned int value, unsigned int shift);
-
-
-
-
-extern void * malloc(size_t);
-extern void free(void *);
-extern void * realloc(void *, size_t);
-# 104 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\stdlib.h" 3
-extern int atexit(void (*)(void));
-extern char * getenv(const char *);
-extern char ** environ;
-extern int system(char *);
-extern void qsort(void *, size_t, size_t, int (*)(const void *, const void *));
-extern void * bsearch(const void *, void *, size_t, size_t, int(*)(const void *, const void *));
-extern int abs(int);
-extern long labs(long);
-
-extern char * itoa(char * buf, int val, int base);
-extern char * utoa(char * buf, unsigned val, int base);
-
-
-
-
-extern char * ltoa(char * buf, long val, int base);
-extern char * ultoa(char * buf, unsigned long val, int base);
-
-extern char * ftoa(float f, int * status);
-# 28 "mainS.c" 2
-
-
-
 # 1 "./SPI.h" 1
 # 13 "./SPI.h"
 typedef enum
@@ -2861,7 +2774,7 @@ void spiInit(Spi_Type, Spi_Data_Sample, Spi_Clock_Idle, Spi_Transmit_Edge);
 void spiWrite(char);
 unsigned spiDataReady();
 char spiRead();
-# 31 "mainS.c" 2
+# 28 "mainS.c" 2
 
 # 1 "./ADC.h" 1
 # 12 "./ADC.h"
@@ -2869,65 +2782,88 @@ char spiRead();
 # 12 "./ADC.h" 2
 
 
-uint8_t configADC(uint8_t ch);
-# 32 "mainS.c" 2
+void configADC(char fr);
+# 29 "mainS.c" 2
 
 
 
-uint8_t V1, V2;
-uint8_t T1, T2;
+
+int ADC1, ADC2;
+int T1, T2;
+int contador;
 
 
 void setup(void);
-# 49 "mainS.c"
+void putch(char data);
+
+
+void __attribute__((picinterrupt(("")))) isr(void){
+
+        if(SSPIF == 1){
+            T1 = spiRead();
+            spiWrite(ADC2);
+            T2 = spiRead();
+            spiWrite(ADC1);
+            SSPIF = 0;
+    }
+
+    if(PIR1bits.ADIF == 1)
+       {
+           if(ADCON0bits.CHS == 0) {
+               ADC1 = ADRESH;
+               ADCON0bits.CHS = 1;
+           }
+           else if(ADCON0bits.CHS == 1){
+            ADCON0bits.CHS = 0;
+               ADC2 = ADRESH;
+            }
+           PIR1bits.ADIF = 0;
+       }
+
+}
+
+
 void main(void){
 
     setup();
     while (1)
     {
-        V1 = configADC(0);
-        V2 = configADC(1);
-
-        if(SSPIF){
-        if(ADCON0bits.CHS==0){
-            spiWrite(V1);
-            RE0 = 1;
-        }
-        else if(ADCON0bits.CHS==1){
-            spiWrite(V2);
-            RE0 = 0;
-        }
-        SSPIF = 0;
+     if (ADCON0bits.GO == 0){
+         _delay((unsigned long)((100)*(4000000/4000000.0)));
+         ADCON0bits.GO = 1;
     }
-    return;
-}
+  }
 }
 
 
 void setup(void){
 
-    ANSEL = 0b0000011;
+    ANSEL = 0b00000011;
     ANSELH = 0;
 
     TRISAbits.TRISA0 = 1;
     TRISAbits.TRISA1 = 1;
     TRISAbits.TRISA5 = 1;
     TRISB = 0;
-
-
-
+    TRISD = 0;
 
     PORTA = 0;
     PORTB = 0;
     PORTC = 0;
     PORTD = 0;
-    PORTE = 0;
 
+    OSCCONbits.IRCF0 = 0;
+    OSCCONbits.IRCF1 = 1;
+    OSCCONbits.IRCF2 = 1;
+    OSCCONbits.SCS = 1;
 
+    INTCONbits.GIE = 1;
+    INTCONbits.PEIE = 1;
+    PIR1bits.SSPIF = 0;
+    PIE1bits.SSPIE = 1;
 
+    spiInit(SPI_SLAVE_SS_EN, SPI_DATA_SAMPLE_MIDDLE, SPI_CLOCK_IDLE_LOW,
+            SPI_IDLE_2_ACTIVE);
 
-
-
-    spiInit(SPI_MASTER_OSC_DIV4, SPI_DATA_SAMPLE_MIDDLE, SPI_CLOCK_IDLE_LOW, SPI_IDLE_2_ACTIVE);
-    return;
+    configADC(2);
 }
