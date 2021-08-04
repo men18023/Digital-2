@@ -1,8 +1,8 @@
 /* Lab3 - SPI
  * File:   mainS.c
  * Author: Jonathan Menendez, 18023
- * Enlace Video: 
- * Enlace Github: 
+ * Enlace Video: https://youtu.be/oTNTV9lghbw
+ * Enlace Github: https://github.com/men18023/Digital-2/tree/main/LAB03
  * Created on 31/07/2021
  */
 
