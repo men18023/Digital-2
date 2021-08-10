@@ -11,7 +11,7 @@
 # All addresses and the length are given in unqualified hexadecimal
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
-$C:\Users\jonam\AppData\Local\Temp\ss7c.o
+$C:\Users\jonam\AppData\Local\Temp\sbb4.o
 reset_vec CODE 0 0 0 3 2
 end_init CODE 0 C C 3 2
 config CONFIG 4 2007 2007 2 2
@@ -72,14 +72,14 @@ STRING 14B-1FFF 2
 # All other numeric values are in decimal.
 %LINETAB
 $dist/default/production\Lab4_S1.X.production.o
-F cinit CODE >807:C:\Users\jonam\AppData\Local\Temp\ss7c.s
-F cinit CODE >810:C:\Users\jonam\AppData\Local\Temp\ss7c.s
-F cinit CODE >827:C:\Users\jonam\AppData\Local\Temp\ss7c.s
-10 cinit CODE >828:C:\Users\jonam\AppData\Local\Temp\ss7c.s
-11 cinit CODE >829:C:\Users\jonam\AppData\Local\Temp\ss7c.s
-12 cinit CODE >835:C:\Users\jonam\AppData\Local\Temp\ss7c.s
-12 cinit CODE >837:C:\Users\jonam\AppData\Local\Temp\ss7c.s
-13 cinit CODE >838:C:\Users\jonam\AppData\Local\Temp\ss7c.s
+F cinit CODE >807:C:\Users\jonam\AppData\Local\Temp\sbb4.s
+F cinit CODE >810:C:\Users\jonam\AppData\Local\Temp\sbb4.s
+F cinit CODE >827:C:\Users\jonam\AppData\Local\Temp\sbb4.s
+10 cinit CODE >828:C:\Users\jonam\AppData\Local\Temp\sbb4.s
+11 cinit CODE >829:C:\Users\jonam\AppData\Local\Temp\sbb4.s
+12 cinit CODE >835:C:\Users\jonam\AppData\Local\Temp\sbb4.s
+12 cinit CODE >837:C:\Users\jonam\AppData\Local\Temp\sbb4.s
+13 cinit CODE >838:C:\Users\jonam\AppData\Local\Temp\sbb4.s
 4 intentry CODE >41:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 16 text4 CODE >41:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 16 text4 CODE >43:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
@@ -96,21 +96,21 @@ F cinit CODE >827:C:\Users\jonam\AppData\Local\Temp\ss7c.s
 3F text4 CODE >60:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 40 text4 CODE >63:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 4A text4 CODE >65:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-50 text4 CODE >67:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-51 text4 CODE >68:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-52 text4 CODE >69:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-58 text4 CODE >70:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-5E text4 CODE >71:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-62 text4 CODE >73:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-6B text4 CODE >74:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-71 text4 CODE >75:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-74 text4 CODE >76:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-78 text4 CODE >77:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-79 text4 CODE >78:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-7D text4 CODE >79:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-83 text4 CODE >80:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-83 text4 CODE >82:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-86 text4 CODE >86:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+50 text4 CODE >66:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+51 text4 CODE >67:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+52 text4 CODE >68:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+58 text4 CODE >69:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+5E text4 CODE >70:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+62 text4 CODE >72:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+6B text4 CODE >73:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+71 text4 CODE >74:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+74 text4 CODE >75:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+78 text4 CODE >76:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+79 text4 CODE >77:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+7D text4 CODE >78:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+83 text4 CODE >79:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+83 text4 CODE >81:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+86 text4 CODE >85:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 11B text3 CODE >93:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\I2C.c
 11C text3 CODE >95:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\I2C.c
 120 text3 CODE >96:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\I2C.c
@@ -163,11 +163,11 @@ D9 text2 CODE >58:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del 
 DA text2 CODE >59:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\ADC.c
 DB text2 CODE >60:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\ADC.c
 F1 text2 CODE >61:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\ADC.c
-F2 text1 CODE >103:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-F2 text1 CODE >105:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-F6 text1 CODE >106:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-F7 text1 CODE >108:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-FA text1 CODE >109:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+F2 text1 CODE >102:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+F2 text1 CODE >104:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+F6 text1 CODE >105:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+F7 text1 CODE >107:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+FA text1 CODE >108:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 FB text1 CODE >112:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 FE text1 CODE >113:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 FF text1 CODE >114:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
@@ -184,11 +184,11 @@ FF text1 CODE >114:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del
 10E text1 CODE >128:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 114 text1 CODE >130:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 11A text1 CODE >131:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-135 maintext CODE >89:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-135 maintext CODE >91:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-13A maintext CODE >94:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-140 maintext CODE >95:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
-144 maintext CODE >96:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+135 maintext CODE >88:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+135 maintext CODE >90:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+13A maintext CODE >93:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+140 maintext CODE >94:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
+144 maintext CODE >95:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -212,19 +212,19 @@ __Heeprom_data 0 0 EEDATA 3 eeprom_data -
 _BF 4A0 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 __Hstrings 0 0 ABS 0 strings -
 _PEIE 5E 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
-___sp 0 0 STACK 2 stack C:\Users\jonam\AppData\Local\Temp\ss7c.o
+___sp 0 0 STACK 2 stack C:\Users\jonam\AppData\Local\Temp\sbb4.o
 _main 26A 0 CODE 0 maintext dist/default/production\Lab4_S1.X.production.o
 btemp 7E 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
-start 18 0 CODE 0 init C:\Users\jonam\AppData\Local\Temp\ss7c.o
+start 18 0 CODE 0 init C:\Users\jonam\AppData\Local\Temp\sbb4.o
 __size_of_main 0 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 __HbssCOMMON 0 0 ABS 0 bssCOMMON -
 __Hpowerup 0 0 CODE 0 powerup -
-intlevel0 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
-intlevel1 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
-intlevel2 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
-intlevel3 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
-intlevel4 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
-intlevel5 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
+intlevel0 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sbb4.o
+intlevel1 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sbb4.o
+intlevel2 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sbb4.o
+intlevel3 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sbb4.o
+intlevel4 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sbb4.o
+intlevel5 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sbb4.o
 __LbssCOMMON 0 0 ABS 0 bssCOMMON -
 _OSCCONbits 8F 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 wtemp0 7E 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
@@ -237,8 +237,8 @@ _ANSELH 189 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _SSPCONbits 14 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _configADC 11A 0 CODE 0 text2 dist/default/production\Lab4_S1.X.production.o
 __Lmaintext 0 0 ABS 0 maintext -
-___stackhi 0 0 ABS 0 - C:\Users\jonam\AppData\Local\Temp\ss7c.o
-___stacklo 0 0 ABS 0 - C:\Users\jonam\AppData\Local\Temp\ss7c.o
+___stackhi 0 0 ABS 0 - C:\Users\jonam\AppData\Local\Temp\sbb4.o
+___stacklo 0 0 ABS 0 - C:\Users\jonam\AppData\Local\Temp\sbb4.o
 _I2C_Slave_Init 236 0 CODE 0 text3 dist/default/production\Lab4_S1.X.production.o
 __size_of_setup 0 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 start_initialization 1E 0 CODE 0 cinit dist/default/production\Lab4_S1.X.production.o
@@ -249,7 +249,7 @@ _SSPBUF 13 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _SSPCON 14 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _TRISC3 43B 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _TRISC4 43C 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
-___int_sp 0 0 STACK 2 stack C:\Users\jonam\AppData\Local\Temp\ss7c.o
+___int_sp 0 0 STACK 2 stack C:\Users\jonam\AppData\Local\Temp\sbb4.o
 __Hbank0 0 0 ABS 0 bank0 -
 __Hbank1 0 0 ABS 0 bank1 -
 __Hbank2 0 0 ABS 0 bank2 -
@@ -294,7 +294,7 @@ _var 79 0 COMMON 1 bssCOMMON dist/default/production\Lab4_S1.X.production.o
 saved_w 7E 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 __end_of_isr 11A 0 CODE 0 text4 dist/default/production\Lab4_S1.X.production.o
 __Lintentry 8 0 CODE 0 intentry -
-reset_vec 0 0 CODE 0 reset_vec C:\Users\jonam\AppData\Local\Temp\ss7c.o
+reset_vec 0 0 CODE 0 reset_vec C:\Users\jonam\AppData\Local\Temp\sbb4.o
 _PIE1bits 8C 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 __pmaintext 26A 0 CODE 0 maintext dist/default/production\Lab4_S1.X.production.o
 __Lcommon 0 0 ABS 0 common -

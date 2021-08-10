@@ -2828,7 +2828,6 @@ void __attribute__((picinterrupt(("")))) isr(void){
         if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
 
             var = SSPBUF;
-
             PIR1bits.SSPIF = 0;
             SSPCONbits.CKP = 1;
             while(!SSPSTATbits.BF);
@@ -2872,6 +2871,7 @@ void setup(void){
 
     TRISAbits.TRISA0 = 1;
     TRISB = 0;
+
 
 
     PORTA = 0;

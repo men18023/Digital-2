@@ -8,7 +8,7 @@
 #include <xc.h>
 #include <stdint.h>
 #include "LCD.h"
-#define _XTAL_FREQ 8000000
+#define _XTAL_FREQ 4000000
 
 
 void pin(uint8_t a){

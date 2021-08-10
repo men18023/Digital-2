@@ -2688,10 +2688,10 @@ void CMDs(uint8_t a){
     RE0 = 0;
     pin(a);
     RE1 = 1;
-    _delay((unsigned long)((5)*(8000000/4000000.0)));
+    _delay((unsigned long)((5)*(4000000/4000000.0)));
     RE1 = 0;
-    _delay((unsigned long)((5)*(8000000/4000000.0)));
-    _delay((unsigned long)((2)*(8000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000/4000000.0)));
+    _delay((unsigned long)((2)*(4000000/4000.0)));
 }
 
 void clear_LCD(void){
@@ -2712,33 +2712,33 @@ void cursor (uint8_t a, uint8_t b){
 }
 
 void configLCD(void){
-    _delay((unsigned long)((20)*(8000000/4000.0)));
+    _delay((unsigned long)((20)*(4000000/4000.0)));
     CMDs (0x30);
-    _delay((unsigned long)((5)*(8000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000/4000.0)));
     CMDs (0x30);
-    _delay((unsigned long)((100)*(8000000/4000000.0)));
+    _delay((unsigned long)((100)*(4000000/4000000.0)));
     CMDs (0x30);
-    _delay((unsigned long)((100)*(8000000/4000000.0)));
+    _delay((unsigned long)((100)*(4000000/4000000.0)));
     CMDs (0x38);
-    _delay((unsigned long)((60)*(8000000/4000000.0)));
+    _delay((unsigned long)((60)*(4000000/4000000.0)));
     CMDs (0x08);
-    _delay((unsigned long)((60)*(8000000/4000000.0)));
+    _delay((unsigned long)((60)*(4000000/4000000.0)));
     CMDs (0x01);
-    _delay((unsigned long)((5)*(8000000/4000.0)));
+    _delay((unsigned long)((5)*(4000000/4000.0)));
     CMDs (0x06);
-    _delay((unsigned long)((60)*(8000000/4000000.0)));
+    _delay((unsigned long)((60)*(4000000/4000000.0)));
     CMDs (0x0C);
-    _delay((unsigned long)((60)*(8000000/4000000.0)));
+    _delay((unsigned long)((60)*(4000000/4000000.0)));
 }
 
 void write_char(char a){
     RE0 = 1;
     pin(a);
     RE1 = 1;
-    _delay((unsigned long)((5)*(8000000/4000000.0)));
+    _delay((unsigned long)((5)*(4000000/4000000.0)));
     RE1 = 0;
-    _delay((unsigned long)((5)*(8000000/4000000.0)));
-    _delay((unsigned long)((50)*(8000000/4000000.0)));
+    _delay((unsigned long)((5)*(4000000/4000000.0)));
+    _delay((unsigned long)((50)*(4000000/4000000.0)));
 }
 
 void write_string(char *a){

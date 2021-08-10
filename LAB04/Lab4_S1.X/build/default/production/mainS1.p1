@@ -517,130 +517,130 @@ Version 4.0 HI-TECH Software Intermediate Code
 "65
 [; ;mainS1.c: 65:             var = SSPBUF;
 [e = _var _SSPBUF ]
-"67
-[; ;mainS1.c: 67:             PIR1bits.SSPIF = 0;
+"66
+[; ;mainS1.c: 66:             PIR1bits.SSPIF = 0;
 [e = . . _PIR1bits 0 3 -> -> 0 `i `uc ]
-"68
-[; ;mainS1.c: 68:             SSPCONbits.CKP = 1;
+"67
+[; ;mainS1.c: 67:             SSPCONbits.CKP = 1;
 [e = . . _SSPCONbits 0 1 -> -> 1 `i `uc ]
-"69
-[; ;mainS1.c: 69:             while(!SSPSTATbits.BF);
+"68
+[; ;mainS1.c: 68:             while(!SSPSTATbits.BF);
 [e $U 145  ]
 [e :U 146 ]
 [e :U 145 ]
 [e $ ! != -> . . _SSPSTATbits 0 0 `i -> 0 `i 146  ]
 [e :U 147 ]
-"70
-[; ;mainS1.c: 70:             v = SSPBUF;
+"69
+[; ;mainS1.c: 69:             v = SSPBUF;
 [e = _v _SSPBUF ]
-"71
-[; ;mainS1.c: 71:             _delay((unsigned long)((250)*(4000000/4000000.0)));
+"70
+[; ;mainS1.c: 70:             _delay((unsigned long)((250)*(4000000/4000000.0)));
 [e ( __delay (1 -> * -> -> 250 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
-"73
-[; ;mainS1.c: 73:         }else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW){
+"72
+[; ;mainS1.c: 72:         }else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW){
 }
 [e $U 148  ]
 [e :U 144 ]
 [e $ ! && ! != -> . . _SSPSTATbits 0 5 `i -> 0 `i != -> . . _SSPSTATbits 0 2 `i -> 0 `i 149  ]
 {
-"74
-[; ;mainS1.c: 74:             var = SSPBUF;
+"73
+[; ;mainS1.c: 73:             var = SSPBUF;
 [e = _var _SSPBUF ]
-"75
-[; ;mainS1.c: 75:             BF = 0;
+"74
+[; ;mainS1.c: 74:             BF = 0;
 [e = _BF -> -> 0 `i `b ]
-"76
-[; ;mainS1.c: 76:             SSPBUF = v;
+"75
+[; ;mainS1.c: 75:             SSPBUF = v;
 [e = _SSPBUF _v ]
-"77
-[; ;mainS1.c: 77:             SSPCONbits.CKP = 1;
+"76
+[; ;mainS1.c: 76:             SSPCONbits.CKP = 1;
 [e = . . _SSPCONbits 0 1 -> -> 1 `i `uc ]
-"78
-[; ;mainS1.c: 78:             _delay((unsigned long)((250)*(4000000/4000000.0)));
+"77
+[; ;mainS1.c: 77:             _delay((unsigned long)((250)*(4000000/4000000.0)));
 [e ( __delay (1 -> * -> -> 250 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
-"79
-[; ;mainS1.c: 79:             while(SSPSTATbits.BF);
+"78
+[; ;mainS1.c: 78:             while(SSPSTATbits.BF);
 [e $U 150  ]
 [e :U 151 ]
 [e :U 150 ]
 [e $ != -> . . _SSPSTATbits 0 0 `i -> 0 `i 151  ]
 [e :U 152 ]
-"80
-[; ;mainS1.c: 80:         }
+"79
+[; ;mainS1.c: 79:         }
 }
 [e :U 149 ]
 [e :U 148 ]
-"82
-[; ;mainS1.c: 82:         PIR1bits.SSPIF = 0;
+"81
+[; ;mainS1.c: 81:         PIR1bits.SSPIF = 0;
 [e = . . _PIR1bits 0 3 -> -> 0 `i `uc ]
-"83
-[; ;mainS1.c: 83:     }
+"82
+[; ;mainS1.c: 82:     }
 }
 [e :U 142 ]
-"86
-[; ;mainS1.c: 86: }
+"85
+[; ;mainS1.c: 85: }
 [e :UE 139 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"89
-[; ;mainS1.c: 89: void main(void){
+"88
+[; ;mainS1.c: 88: void main(void){
 [v _main `(v ~T0 @X0 1 ef ]
 {
 [e :U _main ]
 [f ]
-"91
-[; ;mainS1.c: 91:     setup();
+"90
+[; ;mainS1.c: 90:     setup();
 [e ( _setup ..  ]
-"92
-[; ;mainS1.c: 92:     while (1)
+"91
+[; ;mainS1.c: 91:     while (1)
 [e :U 155 ]
-"93
-[; ;mainS1.c: 93:     {
+"92
+[; ;mainS1.c: 92:     {
 {
-"94
-[; ;mainS1.c: 94:      if (ADCON0bits.GO == 0){
+"93
+[; ;mainS1.c: 93:      if (ADCON0bits.GO == 0){
 [e $ ! == -> . . _ADCON0bits 1 1 `i -> 0 `i 157  ]
 {
-"95
-[; ;mainS1.c: 95:          _delay((unsigned long)((100)*(4000000/4000000.0)));
+"94
+[; ;mainS1.c: 94:          _delay((unsigned long)((100)*(4000000/4000000.0)));
 [e ( __delay (1 -> * -> -> 100 `i `d / -> -> 4000000 `l `d .4000000.0 `ul ]
-"96
-[; ;mainS1.c: 96:          ADCON0bits.GO = 1;
+"95
+[; ;mainS1.c: 95:          ADCON0bits.GO = 1;
 [e = . . _ADCON0bits 1 1 -> -> 1 `i `uc ]
-"97
-[; ;mainS1.c: 97:     }
+"96
+[; ;mainS1.c: 96:     }
 }
 [e :U 157 ]
-"98
-[; ;mainS1.c: 98:   }
+"97
+[; ;mainS1.c: 97:   }
 }
 [e :U 154 ]
 [e $U 155  ]
 [e :U 156 ]
-"99
-[; ;mainS1.c: 99:     return;
+"98
+[; ;mainS1.c: 98:     return;
 [e $UE 153  ]
-"100
-[; ;mainS1.c: 100: }
+"99
+[; ;mainS1.c: 99: }
 [e :UE 153 ]
 }
-"103
-[; ;mainS1.c: 103: void setup(void){
+"102
+[; ;mainS1.c: 102: void setup(void){
 [v _setup `(v ~T0 @X0 1 ef ]
 {
 [e :U _setup ]
 [f ]
-"105
-[; ;mainS1.c: 105:     ANSEL = 0b00000001;
+"104
+[; ;mainS1.c: 104:     ANSEL = 0b00000001;
 [e = _ANSEL -> -> 1 `i `uc ]
-"106
-[; ;mainS1.c: 106:     ANSELH = 0;
+"105
+[; ;mainS1.c: 105:     ANSELH = 0;
 [e = _ANSELH -> -> 0 `i `uc ]
-"108
-[; ;mainS1.c: 108:     TRISAbits.TRISA0 = 1;
+"107
+[; ;mainS1.c: 107:     TRISAbits.TRISA0 = 1;
 [e = . . _TRISAbits 0 0 -> -> 1 `i `uc ]
-"109
-[; ;mainS1.c: 109:     TRISB = 0;
+"108
+[; ;mainS1.c: 108:     TRISB = 0;
 [e = _TRISB -> -> 0 `i `uc ]
 "112
 [; ;mainS1.c: 112:     PORTA = 0;

@@ -1,7 +1,7 @@
 /* Lab4 - 12C
  * File:   mainS1.c
  * Author: Jonathan Menendez, 18023
- * Enlace Video: 
+ * Enlace Video: https://youtu.be/yjBZK1R30_I
  * Enlace Github: https://github.com/men18023/Digital-2/tree/main/LAB04
  * Created on 07/08/2021
  */
@@ -63,7 +63,6 @@ void __interrupt() isr(void){
         if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
             //__delay_us(7);
             var = SSPBUF;                 // Lectura del SSBUF para limpiar el buffer y la bandera BF
-            //__delay_us(2);
             PIR1bits.SSPIF = 0;    // Limpia bandera de interrupci?n recepci?n/transmisi?n SSP
             SSPCONbits.CKP = 1;         // Habilita entrada de pulsos de reloj SCL
             while(!SSPSTATbits.BF);     // Esperar a que la recepci?n se complete
@@ -107,6 +106,7 @@ void setup(void){
     //I/O
     TRISAbits.TRISA0 = 1;
     TRISB = 0;
+    //TRISC = 0;
     //TRISD = 0;
     //LIMPIAR PUERTOS
     PORTA = 0;

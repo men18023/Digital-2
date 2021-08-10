@@ -338,7 +338,7 @@ text3 25A 267 CODE 25A 0
 text1 24E 259 CODE 24E 0
 %locals
 dist/default/production\Lab3M.X.production.o
-C:\Users\jonam\AppData\Local\Temp\s788.s
+C:\Users\jonam\AppData\Local\Temp\sha0.s
 1087 7EC 0 CODE 0
 1090 7EC 0 CODE 0
 1134 7EC 0 CODE 0
@@ -676,7 +676,7 @@ C:\Program Files\Microchip\xc8\v2.31\pic\sources\c90\common\Umul16.c
 49 204 0 CODE 0
 52 20A 0 CODE 0
 53 20E 0 CODE 0
-C:\Users\jonam\AppData\Local\Temp\s788.s
+C:\Users\jonam\AppData\Local\Temp\sha0.s
 5695 3 0 ENTRY 0
 5697 3 0 ENTRY 0
 5698 3 0 ENTRY 0

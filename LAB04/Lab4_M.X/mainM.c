@@ -1,7 +1,7 @@
 /* Lab04 - I2C
  * File:   mainM.c
  * Author: Jonathan Menendez, 18023
- * Enlace Video: 
+ * Enlace Video: https://youtu.be/yjBZK1R30_I
  * Enlace Github: https://github.com/men18023/Digital-2/tree/main/LAB04
  * Created on 07/08/2021
  */
@@ -30,7 +30,13 @@
 #define _XTAL_FREQ 4000000
 
 // VARIABLES
-//uint8_t ADC0, ADC1;
+ char prueba;
+ char BFFR1[10];
+ char BFFR2[10];
+ char BFFR3[10];
+ float contador = 0;
+ float cc1 = 0;
+ float cc2 = 0 ;
 //uint8_t contador;
 //char BUFFER[30];
 // valor
@@ -57,21 +63,35 @@ void main(void){
         I2C_Master_Start();
         I2C_Master_Write(0x51); 
         PORTB = I2C_Master_Read(0); //mando a los leds
+        prueba = PORTB;
         I2C_Master_Stop();
         __delay_ms(200);
-        //Osensor de temperatura
+        
+                // slave 2
+        I2C_Master_Start();
+        I2C_Master_Write(0x61); 
+        PORTA = I2C_Master_Read(0); //mando a los leds
+        I2C_Master_Stop();
+        __delay_ms(200);
+        
+        //sensor de temperatura
         I2C_Master_Start();
         I2C_Master_Write(0x80); //seleccionar el sensor
         I2C_Master_Write(0xF3); //leer la temp
+        I2C_Master_Stop();
         __delay_ms(200);
-        
+       
         I2C_Master_Start();
         I2C_Master_Write(0x81); //read
         PORTD = I2C_Master_Read(0); 
         I2C_Master_Stop();
         __delay_ms(200);
-                 
-}
+        
+        //clear_LCD();
+        //cursor(1,1);
+        //write_string("ADC  CONT  TEMP");
+        //cursor(2,1);
+     }
 }
 
 // configuraciones generales
@@ -80,10 +100,12 @@ void setup(void){
     ANSEL = 0;
     ANSELH = 0;
     // I/0
-    //TRISA = 0;
+    TRISA = 0;
     TRISB = 0;
+    PORTA = 0;
     PORTB = 0;
     TRISD = 0;
+    //TRISE = 0;
     //TRISC = 0;
     //TRISD = 0;
     //TRISE = 0;
@@ -100,6 +122,7 @@ void setup(void){
     OSCCONbits.SCS = 1;  
     //I2C
     I2C_Master_Init(100000);
+    
 }
 
 

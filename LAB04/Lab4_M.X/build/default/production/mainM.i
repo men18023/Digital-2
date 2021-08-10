@@ -2782,7 +2782,24 @@ unsigned short I2C_Master_Read(unsigned short a);
 
 void I2C_Slave_Init(uint8_t address);
 # 28 "mainM.c" 2
-# 40 "mainM.c"
+
+
+
+
+
+ char prueba;
+ char BFFR1[10];
+ char BFFR2[10];
+ char BFFR3[10];
+ float contador = 0;
+ float cc1 = 0;
+ float cc2 = 0 ;
+
+
+
+
+
+
 void setup(void);
 
 
@@ -2803,12 +2820,22 @@ void main(void){
         I2C_Master_Start();
         I2C_Master_Write(0x51);
         PORTB = I2C_Master_Read(0);
+        prueba = PORTB;
         I2C_Master_Stop();
         _delay((unsigned long)((200)*(4000000/4000.0)));
+
+
+        I2C_Master_Start();
+        I2C_Master_Write(0x61);
+        PORTA = I2C_Master_Read(0);
+        I2C_Master_Stop();
+        _delay((unsigned long)((200)*(4000000/4000.0)));
+
 
         I2C_Master_Start();
         I2C_Master_Write(0x80);
         I2C_Master_Write(0xF3);
+        I2C_Master_Stop();
         _delay((unsigned long)((200)*(4000000/4000.0)));
 
         I2C_Master_Start();
@@ -2817,7 +2844,11 @@ void main(void){
         I2C_Master_Stop();
         _delay((unsigned long)((200)*(4000000/4000.0)));
 
-}
+
+
+
+
+     }
 }
 
 
@@ -2826,10 +2857,12 @@ void setup(void){
     ANSEL = 0;
     ANSELH = 0;
 
-
+    TRISA = 0;
     TRISB = 0;
+    PORTA = 0;
     PORTB = 0;
     TRISD = 0;
+
 
 
 
@@ -2846,4 +2879,5 @@ void setup(void){
     OSCCONbits.SCS = 1;
 
     I2C_Master_Init(100000);
+
 }
