@@ -11,7 +11,7 @@
 # All addresses and the length are given in unqualified hexadecimal
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
-$C:\Users\jonam\AppData\Local\Temp\sgrk.o
+$C:\Users\jonam\AppData\Local\Temp\ss7c.o
 reset_vec CODE 0 0 0 3 2
 end_init CODE 0 C C 3 2
 config CONFIG 4 2007 2007 2 2
@@ -72,14 +72,14 @@ STRING 14B-1FFF 2
 # All other numeric values are in decimal.
 %LINETAB
 $dist/default/production\Lab4_S1.X.production.o
-F cinit CODE >807:C:\Users\jonam\AppData\Local\Temp\sgrk.s
-F cinit CODE >810:C:\Users\jonam\AppData\Local\Temp\sgrk.s
-F cinit CODE >827:C:\Users\jonam\AppData\Local\Temp\sgrk.s
-10 cinit CODE >828:C:\Users\jonam\AppData\Local\Temp\sgrk.s
-11 cinit CODE >829:C:\Users\jonam\AppData\Local\Temp\sgrk.s
-12 cinit CODE >835:C:\Users\jonam\AppData\Local\Temp\sgrk.s
-12 cinit CODE >837:C:\Users\jonam\AppData\Local\Temp\sgrk.s
-13 cinit CODE >838:C:\Users\jonam\AppData\Local\Temp\sgrk.s
+F cinit CODE >807:C:\Users\jonam\AppData\Local\Temp\ss7c.s
+F cinit CODE >810:C:\Users\jonam\AppData\Local\Temp\ss7c.s
+F cinit CODE >827:C:\Users\jonam\AppData\Local\Temp\ss7c.s
+10 cinit CODE >828:C:\Users\jonam\AppData\Local\Temp\ss7c.s
+11 cinit CODE >829:C:\Users\jonam\AppData\Local\Temp\ss7c.s
+12 cinit CODE >835:C:\Users\jonam\AppData\Local\Temp\ss7c.s
+12 cinit CODE >837:C:\Users\jonam\AppData\Local\Temp\ss7c.s
+13 cinit CODE >838:C:\Users\jonam\AppData\Local\Temp\ss7c.s
 4 intentry CODE >41:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 16 text4 CODE >41:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 16 text4 CODE >43:C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
@@ -212,19 +212,19 @@ __Heeprom_data 0 0 EEDATA 3 eeprom_data -
 _BF 4A0 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 __Hstrings 0 0 ABS 0 strings -
 _PEIE 5E 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
-___sp 0 0 STACK 2 stack C:\Users\jonam\AppData\Local\Temp\sgrk.o
+___sp 0 0 STACK 2 stack C:\Users\jonam\AppData\Local\Temp\ss7c.o
 _main 26A 0 CODE 0 maintext dist/default/production\Lab4_S1.X.production.o
 btemp 7E 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
-start 18 0 CODE 0 init C:\Users\jonam\AppData\Local\Temp\sgrk.o
+start 18 0 CODE 0 init C:\Users\jonam\AppData\Local\Temp\ss7c.o
 __size_of_main 0 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 __HbssCOMMON 0 0 ABS 0 bssCOMMON -
 __Hpowerup 0 0 CODE 0 powerup -
-intlevel0 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sgrk.o
-intlevel1 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sgrk.o
-intlevel2 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sgrk.o
-intlevel3 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sgrk.o
-intlevel4 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sgrk.o
-intlevel5 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\sgrk.o
+intlevel0 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
+intlevel1 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
+intlevel2 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
+intlevel3 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
+intlevel4 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
+intlevel5 0 0 ENTRY 0 functab C:\Users\jonam\AppData\Local\Temp\ss7c.o
 __LbssCOMMON 0 0 ABS 0 bssCOMMON -
 _OSCCONbits 8F 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 wtemp0 7E 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
@@ -237,8 +237,8 @@ _ANSELH 189 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _SSPCONbits 14 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _configADC 11A 0 CODE 0 text2 dist/default/production\Lab4_S1.X.production.o
 __Lmaintext 0 0 ABS 0 maintext -
-___stackhi 0 0 ABS 0 - C:\Users\jonam\AppData\Local\Temp\sgrk.o
-___stacklo 0 0 ABS 0 - C:\Users\jonam\AppData\Local\Temp\sgrk.o
+___stackhi 0 0 ABS 0 - C:\Users\jonam\AppData\Local\Temp\ss7c.o
+___stacklo 0 0 ABS 0 - C:\Users\jonam\AppData\Local\Temp\ss7c.o
 _I2C_Slave_Init 236 0 CODE 0 text3 dist/default/production\Lab4_S1.X.production.o
 __size_of_setup 0 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 start_initialization 1E 0 CODE 0 cinit dist/default/production\Lab4_S1.X.production.o
@@ -249,7 +249,7 @@ _SSPBUF 13 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _SSPCON 14 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _TRISC3 43B 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 _TRISC4 43C 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
-___int_sp 0 0 STACK 2 stack C:\Users\jonam\AppData\Local\Temp\sgrk.o
+___int_sp 0 0 STACK 2 stack C:\Users\jonam\AppData\Local\Temp\ss7c.o
 __Hbank0 0 0 ABS 0 bank0 -
 __Hbank1 0 0 ABS 0 bank1 -
 __Hbank2 0 0 ABS 0 bank2 -
@@ -294,7 +294,7 @@ _var 79 0 COMMON 1 bssCOMMON dist/default/production\Lab4_S1.X.production.o
 saved_w 7E 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 __end_of_isr 11A 0 CODE 0 text4 dist/default/production\Lab4_S1.X.production.o
 __Lintentry 8 0 CODE 0 intentry -
-reset_vec 0 0 CODE 0 reset_vec C:\Users\jonam\AppData\Local\Temp\sgrk.o
+reset_vec 0 0 CODE 0 reset_vec C:\Users\jonam\AppData\Local\Temp\ss7c.o
 _PIE1bits 8C 0 ABS 0 - dist/default/production\Lab4_S1.X.production.o
 __pmaintext 26A 0 CODE 0 maintext dist/default/production\Lab4_S1.X.production.o
 __Lcommon 0 0 ABS 0 common -

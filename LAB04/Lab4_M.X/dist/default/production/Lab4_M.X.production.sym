@@ -182,7 +182,7 @@ cstackCOMMON 70 7A COMMON 70 1
 cstackBANK0 20 2F BANK0 20 1
 %locals
 dist/default/production\Lab4_M.X.production.o
-C:\Users\jonam\AppData\Local\Temp\spkc.s
+C:\Users\jonam\AppData\Local\Temp\sr30.s
 815 F 0 CODE 0
 818 F 0 CODE 0
 824 F 0 CODE 0

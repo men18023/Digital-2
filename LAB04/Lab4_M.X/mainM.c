@@ -3,7 +3,7 @@
  * Author: Jonathan Menendez, 18023
  * Enlace Video: 
  * Enlace Github: https://github.com/men18023/Digital-2/tree/main/LAB04
- * Created on 31/07/2021
+ * Created on 07/08/2021
  */
 
 //CONFIG 1
