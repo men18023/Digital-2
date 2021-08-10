@@ -39,6 +39,15 @@ void setup(void);
 
 //INTERRUPCIONES
 void __interrupt() isr(void){
+    //ADC
+    if(PIR1bits.ADIF == 1) // bandera del ADC
+       {
+           if(ADCON0bits.CHS == 0) { // revisa canal 0
+               PORTB = ADRESH;
+               v = ADRESH;
+           }     
+           PIR1bits.ADIF = 0;// Baja la bandera
+       }
     //SPI
      if(PIR1bits.SSPIF == 1){ 
 
@@ -46,8 +55,8 @@ void __interrupt() isr(void){
        
         if ((SSPCONbits.SSPOV) || (SSPCONbits.WCOL)){
             var = SSPBUF;                 // Read the previous value to clear the buffer
-            SSPCONbits.SSPOV = 0;       // Clear the overflow flag
-            SSPCONbits.WCOL = 0;        // Clear the collision bit
+            SSPCONbits.SSPOV = 0;  // Clear the overflow flag
+            SSPCONbits.WCOL = 0;    // Clear the collision bit
             SSPCONbits.CKP = 1;         // Enables SCL (Clock)
         }
 
@@ -55,7 +64,7 @@ void __interrupt() isr(void){
             //__delay_us(7);
             var = SSPBUF;                 // Lectura del SSBUF para limpiar el buffer y la bandera BF
             //__delay_us(2);
-            PIR1bits.SSPIF = 0;         // Limpia bandera de interrupci?n recepci?n/transmisi?n SSP
+            PIR1bits.SSPIF = 0;    // Limpia bandera de interrupci?n recepci?n/transmisi?n SSP
             SSPCONbits.CKP = 1;         // Habilita entrada de pulsos de reloj SCL
             while(!SSPSTATbits.BF);     // Esperar a que la recepci?n se complete
             v = SSPBUF;             // Guardar en el PORTD el valor del buffer de recepci?n
@@ -72,15 +81,7 @@ void __interrupt() isr(void){
        
         PIR1bits.SSPIF = 0;    
     }
-    //ADC
-    if(PIR1bits.ADIF == 1) // bandera del ADC
-       {
-           if(ADCON0bits.CHS == 0) { // revisa canal 0
-               v = ADRESH;
-               ADCON0bits.CHS = 1;
-           }     
-           PIR1bits.ADIF = 0;// Baja la bandera
-       }
+   
        
 }
 
@@ -95,12 +96,13 @@ void main(void){
          ADCON0bits.GO = 1;
     }
   }
+    return;
 }
 
 // configuraciones generales
 void setup(void){
     // PUERTOS ANALOGICOS
-    ANSEL = 0b00000011;
+    ANSEL = 0b00000001;
     ANSELH = 0;
     //I/O
     TRISAbits.TRISA0 = 1;
@@ -111,6 +113,7 @@ void setup(void){
     PORTB = 0;
     PORTC = 0;
     PORTD = 0;
+    PORTE = 0;
     //RELOJ INTERNO
     OSCCONbits.IRCF0 = 0; //4mhz
     OSCCONbits.IRCF1 = 1;

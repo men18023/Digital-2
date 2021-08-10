@@ -2828,8 +2828,10 @@ void setup(void){
 
 
     TRISB = 0;
-
+    PORTB = 0;
     TRISD = 0;
+
+
 
 
     PORTA = 0;
@@ -2837,9 +2839,6 @@ void setup(void){
     PORTC = 0;
     PORTD = 0;
     PORTE = 0;
-
-    I2C_Master_Init(100000);
-
 
     OSCCONbits.IRCF0 = 0;
     OSCCONbits.IRCF1 = 1;

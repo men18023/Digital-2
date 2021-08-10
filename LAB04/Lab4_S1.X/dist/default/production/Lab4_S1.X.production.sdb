@@ -21,9 +21,9 @@
 [v _I2C_Slave_Init I2C_Slave_Init `(v  1 e 1 0 ]
 "41 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 [v _isr isr `II(v  1 e 1 0 ]
-"88
+"89
 [v _main main `(v  1 e 1 0 ]
-"101
+"103
 [v _setup setup `(v  1 e 1 0 ]
 "166 C:/Program Files (x86)/Microchip/MPLABX/v5.40/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h
 [v _PORTA PORTA `VEuc  1 e 1 @5 ]
@@ -33,7 +33,9 @@
 [v _PORTC PORTC `VEuc  1 e 1 @7 ]
 "352
 [v _PORTD PORTD `VEuc  1 e 1 @8 ]
-[s S269 . 1 `uc 1 RBIF 1 0 :1:0 
+"414
+[v _PORTE PORTE `VEuc  1 e 1 @9 ]
+[s S270 . 1 `uc 1 RBIF 1 0 :1:0 
 `uc 1 INTF 1 0 :1:1 
 `uc 1 T0IF 1 0 :1:2 
 `uc 1 RBIE 1 0 :1:3 
@@ -43,13 +45,13 @@
 `uc 1 GIE 1 0 :1:7 
 ]
 "482
-[s S278 . 1 `uc 1 . 1 0 :2:0 
+[s S279 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 TMR0IF 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 TMR0IE 1 0 :1:5 
 ]
-[u S283 . 1 `S269 1 . 1 0 `S278 1 . 1 0 ]
-[v _INTCONbits INTCONbits `VES283  1 e 1 @11 ]
+[u S284 . 1 `S270 1 . 1 0 `S279 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES284  1 e 1 @11 ]
 [s S22 . 1 `uc 1 TMR1IF 1 0 :1:0 
 `uc 1 TMR2IF 1 0 :1:1 
 `uc 1 CCP1IF 1 0 :1:2 
@@ -65,29 +67,29 @@
 [v _SSPBUF SSPBUF `VEuc  1 e 1 @19 ]
 "850
 [v _SSPCON SSPCON `VEuc  1 e 1 @20 ]
-[s S41 . 1 `uc 1 SSPM 1 0 :4:0 
+[s S89 . 1 `uc 1 SSPM 1 0 :4:0 
 `uc 1 CKP 1 0 :1:4 
 `uc 1 SSPEN 1 0 :1:5 
 `uc 1 SSPOV 1 0 :1:6 
 `uc 1 WCOL 1 0 :1:7 
 ]
 "870
-[s S47 . 1 `uc 1 SSPM0 1 0 :1:0 
+[s S95 . 1 `uc 1 SSPM0 1 0 :1:0 
 `uc 1 SSPM1 1 0 :1:1 
 `uc 1 SSPM2 1 0 :1:2 
 `uc 1 SSPM3 1 0 :1:3 
 ]
-[u S52 . 1 `S41 1 . 1 0 `S47 1 . 1 0 ]
-[v _SSPCONbits SSPCONbits `VES52  1 e 1 @20 ]
+[u S100 . 1 `S89 1 . 1 0 `S95 1 . 1 0 ]
+[v _SSPCONbits SSPCONbits `VES100  1 e 1 @20 ]
 "1238
 [v _ADRESH ADRESH `VEuc  1 e 1 @30 ]
-[s S164 . 1 `uc 1 ADON 1 0 :1:0 
+[s S41 . 1 `uc 1 ADON 1 0 :1:0 
 `uc 1 GO_nDONE 1 0 :1:1 
 `uc 1 CHS 1 0 :4:2 
 `uc 1 ADCS 1 0 :2:6 
 ]
 "1276
-[s S169 . 1 `uc 1 . 1 0 :1:0 
+[s S46 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 GO 1 0 :1:1 
 `uc 1 CHS0 1 0 :1:2 
 `uc 1 CHS1 1 0 :1:3 
@@ -96,15 +98,15 @@
 `uc 1 ADCS0 1 0 :1:6 
 `uc 1 ADCS1 1 0 :1:7 
 ]
-[s S178 . 1 `uc 1 . 1 0 :1:0 
+[s S55 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 nDONE 1 0 :1:1 
 ]
-[s S181 . 1 `uc 1 . 1 0 :1:0 
+[s S58 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 GO_DONE 1 0 :1:1 
 ]
-[u S184 . 1 `S164 1 . 1 0 `S169 1 . 1 0 `S178 1 . 1 0 `S181 1 . 1 0 ]
-[v _ADCON0bits ADCON0bits `VES184  1 e 1 @31 ]
-[s S217 . 1 `uc 1 TRISA0 1 0 :1:0 
+[u S61 . 1 `S41 1 . 1 0 `S46 1 . 1 0 `S55 1 . 1 0 `S58 1 . 1 0 ]
+[v _ADCON0bits ADCON0bits `VES61  1 e 1 @31 ]
+[s S218 . 1 `uc 1 TRISA0 1 0 :1:0 
 `uc 1 TRISA1 1 0 :1:1 
 `uc 1 TRISA2 1 0 :1:2 
 `uc 1 TRISA3 1 0 :1:3 
@@ -114,11 +116,11 @@
 `uc 1 TRISA7 1 0 :1:7 
 ]
 "1433
-[u S226 . 1 `S217 1 . 1 0 ]
-[v _TRISAbits TRISAbits `VES226  1 e 1 @133 ]
+[u S227 . 1 `S218 1 . 1 0 ]
+[v _TRISAbits TRISAbits `VES227  1 e 1 @133 ]
 "1478
 [v _TRISB TRISB `VEuc  1 e 1 @134 ]
-[s S412 . 1 `uc 1 TRISC0 1 0 :1:0 
+[s S413 . 1 `uc 1 TRISC0 1 0 :1:0 
 `uc 1 TRISC1 1 0 :1:1 
 `uc 1 TRISC2 1 0 :1:2 
 `uc 1 TRISC3 1 0 :1:3 
@@ -128,9 +130,9 @@
 `uc 1 TRISC7 1 0 :1:7 
 ]
 "1557
-[u S421 . 1 `S412 1 . 1 0 ]
-[v _TRISCbits TRISCbits `VES421  1 e 1 @135 ]
-[s S301 . 1 `uc 1 TMR1IE 1 0 :1:0 
+[u S422 . 1 `S413 1 . 1 0 ]
+[v _TRISCbits TRISCbits `VES422  1 e 1 @135 ]
+[s S302 . 1 `uc 1 TMR1IE 1 0 :1:0 
 `uc 1 TMR2IE 1 0 :1:1 
 `uc 1 CCP1IE 1 0 :1:2 
 `uc 1 SSPIE 1 0 :1:3 
@@ -139,25 +141,25 @@
 `uc 1 ADIE 1 0 :1:6 
 ]
 "1718
-[u S309 . 1 `S301 1 . 1 0 ]
-[v _PIE1bits PIE1bits `VES309  1 e 1 @140 ]
-[s S243 . 1 `uc 1 SCS 1 0 :1:0 
+[u S310 . 1 `S302 1 . 1 0 ]
+[v _PIE1bits PIE1bits `VES310  1 e 1 @140 ]
+[s S244 . 1 `uc 1 SCS 1 0 :1:0 
 `uc 1 LTS 1 0 :1:1 
 `uc 1 HTS 1 0 :1:2 
 `uc 1 OSTS 1 0 :1:3 
 `uc 1 IRCF 1 0 :3:4 
 ]
 "1882
-[s S249 . 1 `uc 1 . 1 0 :4:0 
+[s S250 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 IRCF0 1 0 :1:4 
 `uc 1 IRCF1 1 0 :1:5 
 `uc 1 IRCF2 1 0 :1:6 
 ]
-[u S254 . 1 `S243 1 . 1 0 `S249 1 . 1 0 ]
-[v _OSCCONbits OSCCONbits `VES254  1 e 1 @143 ]
+[u S255 . 1 `S244 1 . 1 0 `S250 1 . 1 0 ]
+[v _OSCCONbits OSCCONbits `VES255  1 e 1 @143 ]
 "1979
 [v _SSPCON2 SSPCON2 `VEuc  1 e 1 @145 ]
-[s S433 . 1 `uc 1 SEN 1 0 :1:0 
+[s S434 . 1 `uc 1 SEN 1 0 :1:0 
 `uc 1 RSEN 1 0 :1:1 
 `uc 1 PEN 1 0 :1:2 
 `uc 1 RCEN 1 0 :1:3 
@@ -167,13 +169,13 @@
 `uc 1 GCEN 1 0 :1:7 
 ]
 "1996
-[u S442 . 1 `S433 1 . 1 0 ]
-[v _SSPCON2bits SSPCON2bits `VES442  1 e 1 @145 ]
+[u S443 . 1 `S434 1 . 1 0 ]
+[v _SSPCON2bits SSPCON2bits `VES443  1 e 1 @145 ]
 "2048
 [v _SSPADD SSPADD `VEuc  1 e 1 @147 ]
 "2177
 [v _SSPSTAT SSPSTAT `VEuc  1 e 1 @148 ]
-[s S68 . 1 `uc 1 BF 1 0 :1:0 
+[s S116 . 1 `uc 1 BF 1 0 :1:0 
 `uc 1 UA 1 0 :1:1 
 `uc 1 R_nW 1 0 :1:2 
 `uc 1 S 1 0 :1:3 
@@ -183,48 +185,48 @@
 `uc 1 SMP 1 0 :1:7 
 ]
 "2231
-[s S77 . 1 `uc 1 . 1 0 :2:0 
+[s S125 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 D 1 0 :1:5 
 ]
-[s S82 . 1 `uc 1 . 1 0 :2:0 
+[s S130 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 I2C_READ 1 0 :1:2 
 `uc 1 I2C_START 1 0 :1:3 
 `uc 1 I2C_STOP 1 0 :1:4 
 `uc 1 I2C_DATA 1 0 :1:5 
 ]
-[s S88 . 1 `uc 1 . 1 0 :2:0 
+[s S136 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nW 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nA 1 0 :1:5 
 ]
-[s S93 . 1 `uc 1 . 1 0 :2:0 
+[s S141 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nWRITE 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nADDRESS 1 0 :1:5 
 ]
-[s S98 . 1 `uc 1 . 1 0 :2:0 
+[s S146 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R_W 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 D_A 1 0 :1:5 
 ]
-[s S103 . 1 `uc 1 . 1 0 :2:0 
+[s S151 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 READ_WRITE 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 DATA_ADDRESS 1 0 :1:5 
 ]
-[u S108 . 1 `S68 1 . 1 0 `S77 1 . 1 0 `S82 1 . 1 0 `S88 1 . 1 0 `S93 1 . 1 0 `S98 1 . 1 0 `S103 1 . 1 0 ]
-[v _SSPSTATbits SSPSTATbits `VES108  1 e 1 @148 ]
-[s S519 . 1 `uc 1 . 1 0 :4:0 
+[u S156 . 1 `S116 1 . 1 0 `S125 1 . 1 0 `S130 1 . 1 0 `S136 1 . 1 0 `S141 1 . 1 0 `S146 1 . 1 0 `S151 1 . 1 0 ]
+[v _SSPSTATbits SSPSTATbits `VES156  1 e 1 @148 ]
+[s S520 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 VCFG0 1 0 :1:4 
 `uc 1 VCFG1 1 0 :1:5 
 `uc 1 . 1 0 :1:6 
 `uc 1 ADFM 1 0 :1:7 
 ]
 "2991
-[u S525 . 1 `S519 1 . 1 0 ]
-[v _ADCON1bits ADCON1bits `VES525  1 e 1 @159 ]
+[u S526 . 1 `S520 1 . 1 0 ]
+[v _ADCON1bits ADCON1bits `VES526  1 e 1 @159 ]
 "3387
 [v _ANSEL ANSEL `VEuc  1 e 1 @392 ]
 "3449
@@ -247,15 +249,15 @@
 [v _var var `uc  1 e 1 0 ]
 "34
 [v _v v `uc  1 e 1 0 ]
-"88
+"89
 [v _main main `(v  1 e 1 0 ]
 {
-"98
+"100
 } 0
-"101
+"103
 [v _setup setup `(v  1 e 1 0 ]
 {
-"128
+"131
 } 0
 "14 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\ADC.c
 [v _configADC configADC `(v  1 e 1 0 ]
@@ -277,5 +279,5 @@
 "41 C:\Users\jonam\OneDrive\Escritorio\OneDrive - Universidad del Valle de Guatemala\Escritorio\7mo SEMESTRE\Digital 2\LAB04\Lab4_S1.X\mainS1.c
 [v _isr isr `II(v  1 e 1 0 ]
 {
-"85
+"86
 } 0

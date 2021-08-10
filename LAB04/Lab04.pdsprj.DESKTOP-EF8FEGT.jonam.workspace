@@ -6,9 +6,9 @@
  </FRAME>
  <MODULE name="VSMDEBUG">
   <PWI>
-   <POPUP w="800" x="60" flags="00000002" y="317" h="200" pid="0" iid="-1">
+   <POPUP w="2424" x="60" flags="00008003" y="317" h="1496" pid="0" iid="-1">
     <PROPERTIES>
-     <ITEM name="Message Column Width">655</ITEM>
+     <ITEM name="Message Column Width">2158</ITEM>
      <ITEM name="ShowGrid">No</ITEM>
      <ITEM name="Source Column Width">100</ITEM>
      <ITEM name="Time Column Width">120</ITEM>
@@ -84,7 +84,7 @@
      <ITEM name="TopLineAddress">00000000</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="450" x="1982" flags="00000023" y="321" h="250" pid="0" iid="20">
+   <POPUP w="450" x="2246" flags="00000023" y="335" h="250" pid="0" iid="20">
     <PROPERTIES>
      <ITEM name="ComboBox1000">S</ITEM>
      <ITEM name="ComboBox1001">Sr</ITEM>
@@ -97,7 +97,7 @@
      <ITEM name="ComboBox1008">A</ITEM>
      <ITEM name="ComboBox1009">N</ITEM>
      <ITEM name="HSplitter1Pos">125</ITEM>
-     <ITEM name="VSplitter1Pos">298</ITEM>
+     <ITEM name="VSplitter1Pos">6</ITEM>
     </PROPERTIES>
    </POPUP>
    <POPUP w="916" x="2002" flags="00000008" y="341" h="439" pid="3" iid="4">
@@ -136,7 +136,7 @@
    <POPUP w="270" x="2082" flags="00000008" y="421" h="304" pid="7" iid="4">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="8" x="2102" flags="80000002" y="441" h="8" pid="8" iid="4">
+   <POPUP w="8" x="2102" flags="00000002" y="441" h="8" pid="8" iid="4">
     <PROPERTIES>
      <ITEM name="DataType">2</ITEM>
      <ITEM name="DispChars">Yes</ITEM>
@@ -182,7 +182,7 @@
    <POPUP w="270" x="2202" flags="00000008" y="541" h="304" pid="7" iid="9">
     <PROPERTIES/>
    </POPUP>
-   <POPUP w="8" x="2222" flags="80000002" y="561" h="8" pid="8" iid="9">
+   <POPUP w="8" x="2222" flags="00000002" y="561" h="8" pid="8" iid="9">
     <PROPERTIES>
      <ITEM name="DataType">2</ITEM>
      <ITEM name="DispChars">Yes</ITEM>
@@ -191,6 +191,9 @@
      <ITEM name="ShowToolTips">Yes</ITEM>
      <ITEM name="TopLineAddress">00000000</ITEM>
     </PROPERTIES>
+   </POPUP>
+   <POPUP w="712" x="1982" flags="00000008" y="321" h="196" pid="1" iid="21">
+    <PROPERTIES/>
    </POPUP>
   </PWI>
  </MODULE>

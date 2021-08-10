@@ -82,8 +82,10 @@ void setup(void){
     // I/0
     //TRISA = 0;
     TRISB = 0;
-    //TRISC = 0;
+    PORTB = 0;
     TRISD = 0;
+    //TRISC = 0;
+    //TRISD = 0;
     //TRISE = 0;
     //LIMPIAR PUERTOS
     PORTA = 0;
@@ -91,9 +93,6 @@ void setup(void){
     PORTC = 0;
     PORTD = 0;
     PORTE = 0;
-    // I2C
-    I2C_Master_Init(100000);
- 
     //RELOJ INTERNO
     OSCCONbits.IRCF0 = 0;//reloj  4mhz
     OSCCONbits.IRCF1 = 1;

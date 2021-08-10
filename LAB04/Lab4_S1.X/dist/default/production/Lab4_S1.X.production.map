@@ -5,7 +5,7 @@ Linker command line:
 -W-3 --edf=C:\Program Files\Microchip\xc8\v2.31\pic\dat\en_msgs.txt -cn \
   -h+dist/default/production\Lab4_S1.X.production.sym \
   --cmf=dist/default/production\Lab4_S1.X.production.cmf -z -Q16F887 \
-  -oC:\Users\jonam\AppData\Local\Temp\so9s.2 --defsym=__MPLAB_BUILD=1 \
+  -oC:\Users\jonam\AppData\Local\Temp\sgrk.2 --defsym=__MPLAB_BUILD=1 \
   -Mdist/default/production/Lab4_S1.X.production.map -E1 -ver=XC8 Compiler \
   --acfsm=1493 -ASTACK=0110h-016Fh -pstack=STACK -ACODE=00h-07FFhx4 \
   -ASTRCODE=00h-01FFFh -ASTRING=00h-0FFhx32 -ACONST=00h-0FFhx32 \
@@ -18,7 +18,7 @@ Linker command line:
   -AEEDATA=00h-0FFh/02100h -peeprom_data=EEDATA -DEEDATA=2 -DCODE=2 \
   -DSTRCODE=2 -DSTRING=2 -DCONST=2 -DENTRY=2 \
   -preset_vec=00h,intentry=04h,init,end_init -ppowerup=CODE -pcinit=CODE \
-  -pfunctab=ENTRY -k C:\Users\jonam\AppData\Local\Temp\so9s.o \
+  -pfunctab=ENTRY -k C:\Users\jonam\AppData\Local\Temp\sgrk.o \
   dist/default/production\Lab4_S1.X.production.o 
 
 Object code version is 3.11
@@ -28,7 +28,7 @@ Machine type is 16F887
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-C:\Users\jonam\AppData\Local\Temp\so9s.o
+C:\Users\jonam\AppData\Local\Temp\sgrk.o
                 end_init                              C        C        3        8       0
                 reset_vec                             0        0        3        0       0
                 config                             2007     2007        2        0       4
@@ -36,11 +36,11 @@ dist/default/production\Lab4_S1.X.production.o
                 cinit                                 F        F        7        8       0
                 intentry                              4        4        8        8       0
                 config                             2007     2007        2        0       4
-                text4                                16       16       79        8       0
-                text3                               11C      11C       1A        8       0
-                text2                                8F       8F       65        8       0
-                text1                                F4       F4       28        8       0
-                maintext                            136      136       16        8       0
+                text4                                16       16       77        8       0
+                text3                               11B      11B       1A        8       0
+                text2                                8D       8D       65        8       0
+                text1                                F2       F2       29        8       0
+                maintext                            135      135       16        8       0
                 cstackCOMMON                         70       70        7       70       1
                 bssCOMMON                            77       77        3       70       1
 
@@ -52,11 +52,11 @@ TOTAL           Name                               Link     Load   Length     Sp
                 cinit                                 F        F        7         0
                 intentry                              4        4        8         0
                 reset_vec                             0        0        3         0
-                text4                                16       16       79         0
-                text3                               11C      11C       1A         0
-                text2                                8F       8F       65         0
-                text1                                F4       F4       28         0
-                maintext                            136      136       16         0
+                text4                                16       16       77         0
+                text3                               11B      11B       1A         0
+                text2                                8D       8D       65         0
+                text1                                F2       F2       29         0
+                maintext                            135      135       16         0
 
         CLASS   STRCODE        
 
@@ -103,7 +103,7 @@ TOTAL           Name                               Link     Load   Length     Sp
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class     Delta
 
                 reset_vec                      000000  000003  000003         0       0  CODE        2
-                intentry                       000004  000148  00014C         8       0  CODE        2
+                intentry                       000004  000147  00014B         8       0  CODE        2
                 cstackCOMMON                   000070  00000A  00007A        70       1  COMMON      1
 
 
@@ -115,13 +115,13 @@ UNUSED ADDRESS RANGES
         BANK2            0110-016F             60           1
         BANK3            0190-01EF             60           1
         CODE             0003-0003              1           2
-                         014C-1FFF            800
+                         014B-1FFF            800
         COMMON           007A-007D              4           1
         CONST            0003-0003              1           2
-                         014C-1FFF            100
+                         014B-1FFF            100
         EEDATA           2100-21FF            100           2
         ENTRY            0003-0003              1           2
-                         014C-1FFF            100
+                         014B-1FFF            100
         IDLOC            2000-2003              4           2
         RAM              0020-006F             50           1
                          00A0-00EF             50
@@ -133,9 +133,9 @@ UNUSED ADDRESS RANGES
         SFR3             0180-018F             10           1
         STACK            0110-016F             60           1
         STRCODE          0003-0003              1           2
-                         014C-1FFF           1EB4
+                         014B-1FFF           1EB5
         STRING           0003-0003              1           2
-                         014C-1FFF            100
+                         014B-1FFF            100
 
                                   Symbol Table
 
@@ -147,7 +147,7 @@ _ANSEL                   (abs)        0188
 _ANSELH                  (abs)        0189
 _BF                      (abs)        04A0
 _GIE                     (abs)        005F
-_I2C_Slave_Init          text3        011C
+_I2C_Slave_Init          text3        011B
 _INTCONbits              (abs)        000B
 _OSCCONbits              (abs)        008F
 _PEIE                    (abs)        005E
@@ -157,6 +157,7 @@ _PORTA                   (abs)        0005
 _PORTB                   (abs)        0006
 _PORTC                   (abs)        0007
 _PORTD                   (abs)        0008
+_PORTE                   (abs)        0009
 _SSPADD                  (abs)        0093
 _SSPBUF                  (abs)        0013
 _SSPCON                  (abs)        0014
@@ -197,7 +198,7 @@ __Hsfr0                  sfr0         0000
 __Hsfr1                  sfr1         0000
 __Hsfr2                  sfr2         0000
 __Hsfr3                  sfr3         0000
-__Hspace_0               (abs)        014C
+__Hspace_0               (abs)        014B
 __Hspace_1               (abs)        007A
 __Hspace_2               (abs)        0000
 __Hspace_3               (abs)        0000
@@ -238,7 +239,7 @@ __Lspace_4               (abs)        0000
 __Lstack                 stack        0000
 __Lstrings               strings      0000
 __Ltext                  text         0000
-__S0                     (abs)        014C
+__S0                     (abs)        014B
 __S1                     (abs)        007A
 __S2                     (abs)        0000
 __S3                     (abs)        0000
@@ -247,30 +248,30 @@ ___latbits               (abs)        0002
 ___sp                    stack        0000
 ___stackhi               (abs)        0000
 ___stacklo               (abs)        0000
-__end_of_I2C_Slave_Init  text3        0136
+__end_of_I2C_Slave_Init  text3        0135
 __end_of__initialization cinit        0012
-__end_of_configADC       text2        00F4
-__end_of_isr             text4        008F
-__end_of_main            maintext     014C
-__end_of_setup           text1        011C
+__end_of_configADC       text2        00F2
+__end_of_isr             text4        008D
+__end_of_main            maintext     014B
+__end_of_setup           text1        011B
 __initialization         cinit        000F
 __pbssCOMMON             bssCOMMON    0077
 __pcstackCOMMON          cstackCOMMON 0070
 __pintentry              intentry     0004
-__pmaintext              maintext     0136
-__ptext1                 text1        00F4
-__ptext2                 text2        008F
-__ptext3                 text3        011C
+__pmaintext              maintext     0135
+__ptext1                 text1        00F2
+__ptext2                 text2        008D
+__ptext3                 text3        011B
 __ptext4                 text4        0016
 __size_of_I2C_Slave_Init (abs)        0000
 __size_of_configADC      (abs)        0000
 __size_of_isr            (abs)        0000
 __size_of_main           (abs)        0000
 __size_of_setup          (abs)        0000
-_configADC               text2        008F
+_configADC               text2        008D
 _isr                     text4        0016
-_main                    maintext     0136
-_setup                   text1        00F4
+_main                    maintext     0135
+_setup                   text1        00F2
 _v                       bssCOMMON    0077
 _var                     bssCOMMON    0079
 btemp                    (abs)        007E
@@ -294,7 +295,7 @@ FUNCTION INFORMATION:
 
  *************** function _main *****************
  Defined at:
-		line 88 in file "mainS1.c"
+		line 89 in file "mainS1.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -323,7 +324,7 @@ Total ram usage:        1 bytes
 
  *************** function _setup *****************
  Defined at:
-		line 101 in file "mainS1.c"
+		line 103 in file "mainS1.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -446,14 +447,14 @@ MODULE INFORMATION
 
 Module		Function		Class		Link	Load	Size
 mainS1.c
-		_main          		CODE           	0136	0000	22
-		_isr           		CODE           	0016	0000	121
-		_setup         		CODE           	00F4	0000	40
+		_main          		CODE           	0135	0000	22
+		_isr           		CODE           	0016	0000	119
+		_setup         		CODE           	00F2	0000	41
 
-mainS1.c estimated size: 183
+mainS1.c estimated size: 182
 
 I2C.c
-		_I2C_Slave_Init		CODE           	011C	0000	26
+		_I2C_Slave_Init		CODE           	011B	0000	26
 
 I2C.c estimated size: 26
 
@@ -463,7 +464,7 @@ shared
 shared estimated size: 3
 
 ADC.c
-		_configADC     		CODE           	008F	0000	101
+		_configADC     		CODE           	008D	0000	101
 
 ADC.c estimated size: 101
 
