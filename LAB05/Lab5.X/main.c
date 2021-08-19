@@ -1,9 +1,9 @@
 /* Lab05 - AdafruitIO
  * File:   main.c
  * Author: Jonathan Menendez, 18023
- * Enlace Video: 
+ * Enlace Video: https://youtu.be/Qt4CmW6TJ3k
  * Enlace Github: https://github.com/men18023/Digital-2/tree/main/LAB05
- * Created on 07/08/2021
+ * Created on 14/08/2021
  */
 
 //CONFIG 1
@@ -30,8 +30,8 @@
 #define _XTAL_FREQ 4000000
 
 // VARIABLES
-int cont;
-char seleccionar;
+char cont = 0;
+char seleccionar = 0;
 char valor, d, c, u , residuo;
 char dd, cc, uu;
 char vv, con1;
@@ -40,7 +40,7 @@ char completo;
 // PROTOTIPOS DE FUNCIONES
 void setup(void);
 void mensaje(void);
-char division(char valor);
+char division(int valor);
 
 //INTERRUPCIONES
 void __interrupt() isr(void){
@@ -49,11 +49,11 @@ void __interrupt() isr(void){
     {
         if (PORTBbits.RB0 == 0) //Se prueba el PB de subir
         {
-            PORTD = PORTD + 1;  //se aumenta el valor en contador leds
+            PORTA = PORTA + 1;  //se aumenta el valor en contador leds
         }
         if  (PORTBbits.RB1 == 0) //se prueba el PB de bajar
         {
-            PORTD = PORTD - 1;  //se disminuye el valor en contador leds
+            PORTA = PORTA - 1;  //se disminuye el valor en contador leds
         }
         INTCONbits.RBIF = 0;
         }   
@@ -63,8 +63,8 @@ void __interrupt() isr(void){
 void main(void) {
     setup();
     while(1){
-        PORTD = cont;
-        PORTA = seleccionar;
+        cont = PORTA;
+        PORTD = seleccionar;
         mensaje();
     }
     return;
@@ -134,7 +134,7 @@ void putch(char dato){  //para uso en transmision
 void mensaje(void){
     __delay_ms(250); //Tiempos para el despliegue de los caracteres
     division(cont);
-    printf("Valor de contador:\r");
+    printf("Valor de contador:");
     __delay_ms(250);
     TXREG = d;
     __delay_ms(250);
@@ -178,7 +178,7 @@ void mensaje(void){
       completo = concatenado(con1, uu);
       __delay_ms(250);
       printf("\rEl valor seleccionado es: %d\r", completo);
-      cont = completo;
+      //cont = completo;
       seleccionar = completo;
 }
 
@@ -196,7 +196,7 @@ int concatenado(int a, int b)
     return c;
 }
 
-char division(char valor){ //proceso de division para displays
+char division(int valor){ //proceso de division para displays
     d = valor/100; //centena = contador dividio 50
     residuo = valor%100; //variable utilizado como residuo
     c = residuo/10; //decena = residuo divido 10

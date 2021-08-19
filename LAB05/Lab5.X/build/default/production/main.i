@@ -2861,8 +2861,8 @@ extern char * ftoa(float f, int * status);
 
 
 
-int cont;
-char seleccionar;
+char cont = 0;
+char seleccionar = 0;
 char valor, d, c, u , residuo;
 char dd, cc, uu;
 char vv, con1;
@@ -2871,7 +2871,7 @@ char completo;
 
 void setup(void);
 void mensaje(void);
-char division(char valor);
+char division(int valor);
 
 
 void __attribute__((picinterrupt(("")))) isr(void){
@@ -2880,11 +2880,11 @@ void __attribute__((picinterrupt(("")))) isr(void){
     {
         if (PORTBbits.RB0 == 0)
         {
-            PORTD = PORTD + 1;
+            PORTA = PORTA + 1;
         }
         if (PORTBbits.RB1 == 0)
         {
-            PORTD = PORTD - 1;
+            PORTA = PORTA - 1;
         }
         INTCONbits.RBIF = 0;
         }
@@ -2894,8 +2894,8 @@ void __attribute__((picinterrupt(("")))) isr(void){
 void main(void) {
     setup();
     while(1){
-        PORTD = cont;
-        PORTA = seleccionar;
+        cont = PORTA;
+        PORTD = seleccionar;
         mensaje();
     }
     return;
@@ -2965,7 +2965,7 @@ void putch(char dato){
 void mensaje(void){
     _delay((unsigned long)((250)*(4000000/4000.0)));
     division(cont);
-    printf("Valor de contador:\r");
+    printf("Valor de contador:");
     _delay((unsigned long)((250)*(4000000/4000.0)));
     TXREG = d;
     _delay((unsigned long)((250)*(4000000/4000.0)));
@@ -3009,7 +3009,7 @@ void mensaje(void){
       completo = concatenado(con1, uu);
       _delay((unsigned long)((250)*(4000000/4000.0)));
       printf("\rEl valor seleccionado es: %d\r", completo);
-      cont = completo;
+
       seleccionar = completo;
 }
 
@@ -3027,7 +3027,7 @@ int concatenado(int a, int b)
     return c;
 }
 
-char division(char valor){
+char division(int valor){
     d = valor/100;
     residuo = valor%100;
     c = residuo/10;

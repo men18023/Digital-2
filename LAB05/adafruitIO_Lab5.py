@@ -1,34 +1,37 @@
-# Código de ejemplo AdafruitIO
-# Universidad del Valle de Guatemala
-# IE3027 - Electrónica Digital 2
-# Diego Morales
-
-# Adafruit IO
-# https://io.adafruit.com/
-
-# if Module not Found. Open Terminal/CMD and execute:
-# pip3 install Adafruit_IO
-
+import serial
+import time
 from Adafruit_IO import Client, RequestError, Feed
 
-ADAFRUIT_IO_KEY = "aio_Kwnc422U1Xm8Z6Nn9Vw4yCtWSWpa"
-ADAFRUIT_IO_USERNAME = "men18023"
+#ubicación de mi plataforma
+ADAFRUIT_IO_KEY = "aio_HMvd17oXDtC57piJpa8NsZj7Hnsc"  #contraseña
+ADAFRUIT_IO_USERNAME = "men18023"                    #usuario
 aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
 
-#Digital Feed
-digital_feed = aio.feeds('temperatura')
-aio.send_data(digital_feed.key, 1)
-digital_data = aio.receive(digital_feed.key)
-print(f'digital signal: {digital_data.value}')
+inicial = 255
 
-#Analog Feed
-analog_feed = aio.feeds('temperatura')
-aio.send_data(analog_feed.key, 10)
-analog_data = aio.receive(analog_feed.key)
-print(f'analog signal: {analog_data.value}')
+ser = serial.Serial("COM2", 9600)
+ser.timeout = 3 
+while True:
+    with ser:
+        inicial = str(inicial)
+        ser.write(inicial.encode('ascii'))
+        print("se envio: {}".format(inicial))
 
-#Analog Feed
-analog_feed = aio.feeds('temperatura')
-aio.send_data(analog_feed.key, 10)
-analog_data = aio.receive(analog_feed.key)
-print(f'analog signal: {analog_data.value}')
+        s1_feed = aio.feeds('sensor-1')
+        s1_data = aio.receive(s1_feed.key)
+        print(f'analog signal: {s1_data.value}')
+
+        valor = int(s1_data.value)
+        ser.write(b's')
+        var = ser.read(1)
+        print(var)
+
+#ser.write(sr1_data)
+#respuesta = ser.readline()
+#aio.send_data(sr1_feed.key, respuesta)
+
+        s2_feed = aio.feeds('sensor-2')
+#aio.send_data(s2_feed.key)
+        s2_data = aio.receive(s2_feed.key)
+        print(f'digital signal: {s2_data.value}')
+        break
