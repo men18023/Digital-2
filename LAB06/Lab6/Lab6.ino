@@ -1,4 +1,6 @@
 
+// link de repositorio: https://github.com/men18023/Digital-2/tree/main/LAB06
+// link de video:
 #define RED PF_1
 #define BLUE PF_2
 #define GREEN PF_3
@@ -78,9 +80,9 @@ void loop() {
     }
   }
 }
-/////////////////////////////////////////////////////////////
+
 //                   secuencia de semaforo                 //
-/////////////////////////////////////////////////////////////
+
 void semaforo (void){
   digitalWrite(BLUE, LOW);  
   digitalWrite(RED, HIGH);    
@@ -95,9 +97,9 @@ void semaforo (void){
   digitalWrite(GREEN, LOW);
   }
 
-/////////////////////////////////////////////////////////////
+
 //                   secuencia de juego                    //
-/////////////////////////////////////////////////////////////
+
 void juego (void){
   act1 = 1;
   act2 = 1;
