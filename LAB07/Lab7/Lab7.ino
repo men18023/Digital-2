@@ -1,7 +1,7 @@
 // Laboratorio 7 - Manejo de Memoria SD
 // Jonathan Menéndez, 18023
 // link video: https://youtu.be/4NJCcQzfPuE
-// link repositorio:
+// link repositorio: https://github.com/men18023/Digital-2/tree/main/LAB07
 
 //librerias utilizadas
 #include <SPI.h>
