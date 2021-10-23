@@ -1,9 +1,11 @@
 //***************************************************************************************************************************************
-/* Librería para el uso de la pantalla ILI9341 en modo 8 bits
- * Basado en el código de martinayotte - https://www.stm32duino.com/viewtopic.php?t=637
- * Adaptación, migración y creación de nuevas funciones: Pablo Mazariegos y José Morales
- * Con ayuda de: José Guerra
- * Modificaciones y adaptación: Diego Morales
+/* Código de ejemplo de videojuego:
+ * Detección de colisiones con objetos rectangulares.
+ * Emplea estructuras para definir clases e instanciar objetos.
+ * Incorpora actualización de cuadros cada 42ms ( aprox. 24fps).
+ * Movimiento de sprite utilizando botones integrados.
+ * Basado en librería para el uso de la pantalla ILI9341 en modo 8 bits
+ * Autor: Diego Morales
  * IE3027: Electrónica Digital 2 - 2021
  */
 //***************************************************************************************************************************************
@@ -20,10 +22,10 @@
 #include "driverlib/rom.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/timer.h"
-
-#include "bitmaps.h"
 #include "font.h"
 #include "lcd_registers.h"
+#include <SD.h>
+#include <SPI.h>
 
 #define LCD_RST PD_0
 #define LCD_CS PD_1
@@ -31,6 +33,19 @@
 #define LCD_WR PD_3
 #define LCD_RD PE_1
 int DPINS[] = {PB_0, PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7};  
+int x = PE_2;    // select the input pin for the potentiometer
+//int ledPinx = PF_2;      // select the pin for the LED
+int sensorValuex = 0;  // variable to store the value coming from the sensor
+int y = PE_3;
+//int ledPiny = PF_1;
+int sensorValuey = 0;
+int right = 0;
+int left = 0;
+int up = 0;
+int down = 0;
+int push = PD_7;
+int sensorp = 0;
+int varp = 0;
 //***************************************************************************************************************************************
 // Functions Prototypes
 //***************************************************************************************************************************************
@@ -44,24 +59,30 @@ void V_line(unsigned int x, unsigned int y, unsigned int l, unsigned int c);
 void Rect(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int c);
 void FillRect(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int c);
 void LCD_Print(String text, int x, int y, int fontSize, int color, int background);
-
 void LCD_Bitmap(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned char bitmap[]);
 void LCD_Sprite(int x, int y, int width, int height, unsigned char bitmap[],int columns, int index, char flip, char offset);
 bool Collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
-void move_right();
-void move_left();
-void move_up();
-void move_down();
-
+void juego();
+void food();
+void game_over();
+char GameOver = 2;
+extern uint8_t marioBitmap[]; // cargar bitmap desde memoria flash
+extern uint8_t tile2[];
+extern uint8_t tile4[];
 int flag = 0;
-int val = 0;
-int tempx = 31;
-int tempy = 0;
+int pts1 = 0;
+int pts2 = 0;
+//int pts1 = 0;
+//int pts1 = 0;
+Sd2Card card;
+SdVolume volume;
+SdFile root;
+int lecturaserial;
+const int chipSelect = PA_3; //cs PIN
 
-extern uint8_t fondo[];
-extern uint8_t uvg[];
-unsigned long previousMillis = 0;  
-const long interval = 42;
+File pic;
+int ascii_hex(int a);
+void MapSD(char x[]);
 
 struct Sprite { // estructura para sprites
   int x; // posicion x
@@ -72,7 +93,7 @@ struct Sprite { // estructura para sprites
   int index; // indice sprite sheet
   int flip; // voltear imagen
   int offset; // desfase
-} head, tail, bunny;
+} head, bunny;
 
 struct Rectangle{ // estructura para rectangulos
   int x; // posicion x
@@ -80,8 +101,25 @@ struct Rectangle{ // estructura para rectangulos
   int width; // ancho de rectángulo
   int height; // altura de rectángulo
   int color; // color de relleno  
-} rect;
+} T, B, L, R, rect;
 
+
+struct Line{ // estructura para rectangulos
+  int x; // posicion x
+  int y; // posicion y
+  int l; // largo de la linea
+  int c; // color de relleno  
+} TT;
+
+bool rectUp = false; // dirección rectángulo
+bool collision_food = false; // detección de colisión
+bool collision_T = false;
+bool collision_B = false; // detección de colisión
+bool collision_R = false;
+bool collision_L = false; // detección de colisión
+extern uint8_t uvg[];
+unsigned long previousMillis = 0;  
+const long interval = 42;
 //***************************************************************************************************************************************
 // Initialization
 //***************************************************************************************************************************************
@@ -92,45 +130,51 @@ void setup() {
   Serial.println("Start");
   LCD_Init();
   LCD_Clear(0x00);
-
-  //FillRect(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int c)
-  //FillRect(0, 0, 320, 240, 0x0400);
-
-  //LCD_Print(String text, int x, int y, int fontSize, int color, int background)
-  //String text1 = "SNAKE GAME";
-  //LCD_Print(text1, 80, 110, 2, 0xffff, 0x0000);
-  pinMode(PUSH1, INPUT_PULLUP);
-  delay(100);
-    
-  //LCD_Bitmap(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned char bitmap[]);
+  
+  
   LCD_Bitmap(0, 0, 320, 240, uvg);
-  delay(100);
-  FillRect(0,0,320,240, 0x2305);
-  String text1 = "Pts P1:";
-  String text2 = "Pts P2:";
-  LCD_Print(text1, 5, 0, 2, 0xFFFF, 0x2305);
-  LCD_Print(text2, 5, 30, 2, 0xFFFF, 0x2305);
-  Rect(8, 48, 303, 183, 0xFFFF);
+  pinMode(PUSH1, INPUT_PULLUP); // botones integrados con como entrada pull-up
+  pinMode(PUSH2, INPUT_PULLUP);
+    // declare the ledPin as an OUTPUT:
+  //pinMode(led, OUTPUT);  
+  //pinMode(left, OUTPUT);
+  //pinMode(up, OUTPUT);
+  pinMode(push, INPUT_PULLUP);
+  
+  T.x = 9;
+  T.y = 49;
+  T.width = 301;
+  T.height = 1;
+  T.color = 0xFFFF;
 
-  head.x = 40;
-  head.y = 50;
+  B.x = 9;
+  B.y = 230;
+  B.width = 301;
+  B.height = 1;
+  B.color = 0xFFFF;
+
+  R.x = 310;
+  R.y = 49;
+  R.width = 1;
+  R.height = 181;
+  R.color = 0xFFFF;
+
+  L.x = 9;
+  L.y = 49;
+  L.width = 1;
+  L.height = 181;
+  L.color = 0xFFFF;
+
+  head.x = 16;
+  head.y = 60;
   head.width = 16;
   head.height = 16;
   head.columns = 4;
-  head.index = 1;
+  head.index = 2;
   head.flip = 0;
   head.offset = 0;
 
-  tail.x = head.x - tempx;
-  tail.y = head.y - tempy;
-  tail.width = 16;
-  tail.height = 16;
-  tail.columns = 4;
-  tail.index = 1;
-  tail.flip = 0;
-  tail.offset = 0;
 
-  
   bunny.width = 16;
   bunny.height = 16;
   bunny.columns = 4;
@@ -138,63 +182,274 @@ void setup() {
   bunny.flip = 1;
   bunny.offset = 0;
   flag = 1;
-// }
- 
+
+  FillRect(0,0,320,240, 0x2305);
+  //String pts1 = pts;
+  String text1 = "Pts P1:";
+  String text2 = "Pts P2:";
+  LCD_Print(text1, 5, 0, 2, 0xFFFF, 0x2305);
+  LCD_Print(text2, 5, 30, 2, 0xFFFF, 0x2305);
+  FillRect(10,50,300,180, 0x0000);
+  Rect(T.x, T.y, T.width , T.height, T.color);
+  Rect(B.x, B.y, B.width , B.height, B.color);
+  Rect(R.x, R.y, R.width , R.height, R.color);
+  Rect(L.x, L.y, L.width , L.height, L.color);
+
+  delay(1000);
 }
 //***************************************************************************************************************************************
 // Loop
 //***************************************************************************************************************************************
 void loop() {
-  //FillRect(0,0,300,170, 0x08F);
-  FillRect(10,50,300,180, 0x0000);
-  if (digitalRead(PUSH1) == LOW && flag == 1){
-    val++;
+  sensorValuex = analogRead(x);    
+  sensorValuey = analogRead(y); 
+  sensorp = digitalRead(push);
+  
+  if (sensorValuex <= 200){
+  right = 0;
+  }
+  if (sensorValuex >= 3891){
+  left = 0;
+  }
+  else {
+  right = 1;
+  left = 1;
+  }
+
+  if (sensorValuey <= 200){
+  up = 0;
+  }
+  if (sensorValuey >= 3891){
+  down = 0;
+  }
+  else {
+  up = 1;
+  down = 1;
+  }
+  
+  if (sensorp == LOW){
+  varp = 1;
+  }
+  else {
+    varp = 0;
+  }
+  if (GameOver == 2){
+      juego_1();
+      }
+  else if (GameOver == 1){
+      juego_2();
+      }
+}
+
+void juego_1(){
+
+  if (flag == 1){
+    bunny.x = random(10,290);
+    bunny.y = random(50,216);
     flag = 0;
   }
   
-    unsigned long currentMillis = millis();
+  unsigned long currentMillis = millis();
   // actualización de frame cada 42ms = 24fps
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
-    bool left = val ;// lectura de entradas
+    bool left = !digitalRead(push); // lectura de entradas
+    bool right = !digitalRead(PUSH2);
       delay(10);
-      if (left == 0){
-        move_right();
-      }
-      if (left == 1){
-         move_up();
-      }
+      if (right) { // modificación de atributos de sprite
+      head.x += 4;
+      //head.index++;
+      head.index = 1;
+      head.flip = 0;
+    }
+    if (left) {
+      head.y += 4;
+      //head.index++;
+      head.index = 2;
+      head.flip = 1;
+    } 
+
+    collision_food = Collision(head.x, head.y, head.width, head.height,
+                          bunny.x, bunny.y, bunny.width, bunny.height); // detección de colisión
+    if (collision_food) { // se reemplaza el color al colisionar
+      pts1++;
+      flag = 1;
+      //LCD_Print(pts1, 5, 0, 2, 0xFFFF, 0x2305);
+    }
+    else {
+    }
+    collision_T = Collision(head.x, head.y, head.width, head.height,
+                          T.x, T.y, T.width, T.height);
+    if (collision_T) { // se reemplaza el color al colisionar
+      GameOver = 1;
+      setup();
+      //game_over();
+    }
+   else {
+      //pts1 = pts1;
+    }
+
+    collision_R = Collision(head.x, head.y, head.width, head.height,
+                          R.x, R.y, R.width, R.height);
+    if (collision_R) { // se reemplaza el color al colisionar
+      GameOver = 1;
+      setup();
+      //game_over();
+    }
+   else {
+      //pts1 = pts1;
+    }
+
+        collision_L = Collision(head.x, head.y, head.width, head.height,
+                          L.x, L.y, L.width, L.height);
+    if (collision_L) { // se reemplaza el color al colisionar
+      GameOver = 1;
+      setup();
+      //game_over();
+    }
+   else {
+      //pts1 = pts1;
+    }
+
+    collision_B = Collision(head.x, head.y, head.width, head.height,
+                          B.x, B.y, B.width, B.height);
+    if (collision_B) { // se reemplaza el color al colisionar
+      GameOver = 1;
+      setup();
+      //game_over();
+    }
+   else {
+      //pts1 = pts1;
+    }
+
+    
+    //FillRect(rect.x, rect.y, rect.width, rect.height, rect.color);
+    if (head.index == 1){ // dependiendo de la dirección, se colorea resto del sprite del frame anterior
+      FillRect(head.x - 4, head.y, 4, head.height, 0x0000);
+    }
+    else if (head.index == 2){
+      FillRect(head.x, head.y - 4, head.width, 4, 0x0000);
+    }
+    LCD_Sprite(head.x, head.y, head.width, head.height, tile2, head.columns, head.index, head.flip, head.offset);
+    //food();
+    //if (bunny.x != head.x && bunny.y != head.y){
+    LCD_Sprite(bunny.x, bunny.y, bunny.width, bunny.height, tile4, bunny.columns, bunny.index, bunny.flip, bunny.offset);
+    String p1 = String(pts1);
+    
+    LCD_Print(p1, 150, 0, 2, 0xFFFF, 0x2305);
+    
+  }
+  }
+void juego_2(){
+
+  if (flag == 1){
+    bunny.x = random(10,290);
+    bunny.y = random(50,216);
+    flag = 0;
+  }
   
+  unsigned long currentMillis = millis();
+  // actualización de frame cada 42ms = 24fps
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    bool left = !digitalRead(PUSH1); // lectura de entradas
+    bool right = !digitalRead(PUSH2);
+      delay(10);
+      if (right) { // modificación de atributos de sprite
+      head.x += 4;
+      //head.index++;
+      head.index = 1;
+      head.flip = 0;
+    }
+    if (left) {
+      head.y += 4;
+      //head.index++;
+      head.index = 2;
+      head.flip = 1;
+    } 
+
+    collision_food = Collision(head.x, head.y, head.width, head.height,
+                          bunny.x, bunny.y, bunny.width, bunny.height); // detección de colisión
+    if (collision_food) { // se reemplaza el color al colisionar
+      pts2++;
+      flag = 1;
+      //LCD_Print(pts1, 5, 0, 2, 0xFFFF, 0x2305);
+    }
+    else {
+    }
+    collision_T = Collision(head.x, head.y, head.width, head.height,
+                          T.x, T.y, T.width, T.height);
+    if (collision_T) { // se reemplaza el color al colisionar
+      GameOver = 0;
+      game_over();
+    }
+   else {
+      //pts1 = pts1;
+    }
+
+    collision_R = Collision(head.x, head.y, head.width, head.height,
+                          R.x, R.y, R.width, R.height);
+    if (collision_R) { // se reemplaza el color al colisionar
+      GameOver = 0;
+      game_over();
+    }
+   else {
+      //pts1 = pts1;
+    }
+
+        collision_L = Collision(head.x, head.y, head.width, head.height,
+                          L.x, L.y, L.width, L.height);
+    if (collision_L) { // se reemplaza el color al colisionar
+      GameOver = 0;
+      game_over();
+    }
+   else {
+      //pts1 = pts1;
+    }
+
+    collision_B = Collision(head.x, head.y, head.width, head.height,
+                          B.x, B.y, B.width, B.height);
+    if (collision_B) { // se reemplaza el color al colisionar
+      GameOver = 0;
+      game_over();
+    }
+   else {
+      //pts1 = pts1;
+    }
+
+    
+    //FillRect(rect.x, rect.y, rect.width, rect.height, rect.color);
+    if (head.index == 1){ // dependiendo de la dirección, se colorea resto del sprite del frame anterior
+      FillRect(head.x - 4, head.y, 4, head.height, 0x0000);
+    }
+    else if (head.index == 2){
+      FillRect(head.x, head.y - 4, head.width, 4, 0x0000);
+    }
+    LCD_Sprite(head.x, head.y, head.width, head.height, tile2, head.columns, head.index, head.flip, head.offset);
+    //food();
+    //if (bunny.x != head.x && bunny.y != head.y){
+    LCD_Sprite(bunny.x, bunny.y, bunny.width, bunny.height, tile4, bunny.columns, bunny.index, bunny.flip, bunny.offset);
+    String p2 = String(pts2);
+    
+    LCD_Print(p2, 150, 20, 2, 0xFFFF, 0x2305);
+    
   }
+  }
+void food(){
+  int validPlace = 0;
+  while (!validPlace){
+    bunny.x = 10 + bunny.x;
+    bunny.y = 10 + bunny.y;
+ }
+ return;
 }
 
-void move_right(){
-  for(head.x = head.x; val == 0; head.x++){
-    delay(10);
-    
-    //int snake_index = (x/11)%8;
-
-    //LCD_Sprite(int x, int y, int width, int height, unsigned char bitmap[],int columns, int index, char flip, char offset);
-    LCD_Sprite(head.x - 15, head.y +1, 16, 16, tile1, 4, 1, 0, 0);
-    //LCD_Sprite(head.x-15, 61, 16, 16, tile4, 4, 1, 0, 0);
-    //LCD_Sprite(250, 61, 16, 16, tile4, 4, 2, 1, 0);
-    LCD_Sprite(head.x, head.y, 16, 16, tile2, 4, 1, 0, 0);
-    V_line( head.x - 15, head.y, 16, 0x0000);
-  }
-}
-void move_up(){
-  for(head.y; val == 1; head.y--){
-    delay(10);
-    
-    //int snake_index = (x/11)%8;
-
-    //LCD_Sprite(int x, int y, int width, int height, unsigned char bitmap[],int columns, int index, char flip, char offset);
-    LCD_Sprite(head.x - 15, head.y +1, 16, 16, tile1, 4, 1, 0, 0);
-    //LCD_Sprite(head.x-15, 61, 16, 16, tile4, 4, 1, 0, 0);
-    //LCD_Sprite(250, 61, 16, 16, tile4, 4, 2, 1, 0);
-    LCD_Sprite(head.x, head.y, 16, 16, tile2, 4, 1, 0, 0);
-    V_line( head.x - 15, head.y, 16, 0x0000);
-  }
+void game_over(){
+  LCD_Clear(0x0000);
+  FillRect(0, 0, 320, 240, 0xFFFF);
+  String gameOver = "GAME OVER";
+  LCD_Print(gameOver, 100, 120, 2, 0xFFFF, 0x0000);
+  
 }
 //***************************************************************************************************************************************
 // Función para inicializar LCD
@@ -534,7 +789,77 @@ void LCD_Sprite(int x, int y, int width, int height, unsigned char bitmap[],int 
   }
   digitalWrite(LCD_CS, HIGH);
 }
-
 bool Collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2){
   return (x1 < x2 + w2) && (x1+ w1 > x2) && (y1 < y2 + h2) && (y1 + h1 > y2);
+}
+
+  int ascii_hex(int a) {
+  switch (a) {
+    case 48:
+      return 0;
+    case 49:
+      return 1;
+    case 50:
+      return 2;
+    case 51:
+      return 3;
+    case 52:
+      return 4;
+    case 53:
+      return 5;
+    case 54:
+      return 6;
+    case 55:
+      return 7;
+    case 56:
+      return 8;
+    case 57:
+      return 9;
+    case 97:
+      return 10;
+    case 98:
+      return 11;
+    case 99:
+      return 12;
+    case 100:
+      return 13;
+    case 101:
+      return 14;
+    case 102:
+      return 15;
+  }
+}
+
+  void MapSD(char x[]){
+  pic = SD.open(x, FILE_READ);
+  int hex1 = 0;
+  int val1 = 0;
+  int val2 = 0;
+  int mapear = 0;
+  int vert = 0;
+  unsigned char maps[640];
+  if(pic){
+    Serial.println("Reading file...");
+    while (pic.available()){
+      mapear = 0;
+      while (mapear < 640){
+        hex1 = pic.read();
+        if (hex1 == 120){
+          val1 = pic.read();
+          val2 = pic.read();
+          val1 = ascii_hex(val1);
+          val2 = ascii_hex(val2);
+          maps[mapear]=val1*16+val2;
+          mapear++;
+        }
+      }
+      LCD_Bitmap(0, vert, 320, 1, maps);
+      vert++;
+    }
+    pic.close();
+  }
+  else{
+    Serial.println("File couldn't be read...");
+    pic.close();
+  }
 }
