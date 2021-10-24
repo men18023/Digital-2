@@ -1,5 +1,7 @@
 /*
- MelodyPlays a melodycircuit:
+ Melody
+ Plays a melody
+ Circuit:
  * 8-ohm speaker on digital pin 8
  created 21 Jan 2010
  modified 30 Aug 2011
