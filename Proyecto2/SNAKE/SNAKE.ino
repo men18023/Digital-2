@@ -43,9 +43,15 @@ int right = 0;
 int left = 0;
 int up = 0;
 int down = 0;
+int f_up = 0;
+int f_down = 0;
+int f_right = 0;
+int f_left = 0;
+
+
 int push = PD_7;
-int sensorp = 0;
-int varp = 0;
+//int sensorp = 0;
+//int varp = 0;
 //***************************************************************************************************************************************
 // Functions Prototypes
 //***************************************************************************************************************************************
@@ -62,7 +68,8 @@ void LCD_Print(String text, int x, int y, int fontSize, int color, int backgroun
 void LCD_Bitmap(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned char bitmap[]);
 void LCD_Sprite(int x, int y, int width, int height, unsigned char bitmap[],int columns, int index, char flip, char offset);
 bool Collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
-void juego();
+void juego_1();
+void juego_2();
 void food();
 void game_over();
 char GameOver = 2;
@@ -194,7 +201,7 @@ void setup() {
   Rect(B.x, B.y, B.width , B.height, B.color);
   Rect(R.x, R.y, R.width , R.height, R.color);
   Rect(L.x, L.y, L.width , L.height, L.color);
-
+  GameOver == 2;
   delay(1000);
 }
 //***************************************************************************************************************************************
@@ -203,36 +210,8 @@ void setup() {
 void loop() {
   sensorValuex = analogRead(x);    
   sensorValuey = analogRead(y); 
-  sensorp = digitalRead(push);
+//  sensorp = digitalRead(push);
   
-  if (sensorValuex <= 200){
-  right = 0;
-  }
-  if (sensorValuex >= 3891){
-  left = 0;
-  }
-  else {
-  right = 1;
-  left = 1;
-  }
-
-  if (sensorValuey <= 200){
-  up = 0;
-  }
-  if (sensorValuey >= 3891){
-  down = 0;
-  }
-  else {
-  up = 1;
-  down = 1;
-  }
-  
-  if (sensorp == LOW){
-  varp = 1;
-  }
-  else {
-    varp = 0;
-  }
   if (GameOver == 2){
       juego_1();
       }
@@ -253,21 +232,33 @@ void juego_1(){
   // actualización de frame cada 42ms = 24fps
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
-    bool left = !digitalRead(push); // lectura de entradas
+    bool down = !digitalRead(PUSH1); // lectura de entradas
     bool right = !digitalRead(PUSH2);
       delay(10);
-      if (right) { // modificación de atributos de sprite
+    if (right) { // modificación de atributos de sprite
+      f_right = 1;
+      f_left = 0;
+      f_up = 0;
+      f_down = 0;
+    }
+    if (down) {
+      f_right = 0;
+      f_left = 0;
+      f_up = 0;
+      f_down = 1;
+    } 
+    if (up) {
+
+    if (f_down == 1){
+      head.y += 4;
+      head.index = 2;
+      head.flip = 1;
+    }
+    if (f_right == 1){
       head.x += 4;
-      //head.index++;
       head.index = 1;
       head.flip = 0;
     }
-    if (left) {
-      head.y += 4;
-      //head.index++;
-      head.index = 2;
-      head.flip = 1;
-    } 
 
     collision_food = Collision(head.x, head.y, head.width, head.height,
                           bunny.x, bunny.y, bunny.width, bunny.height); // detección de colisión
@@ -340,6 +331,7 @@ void juego_1(){
     
   }
   }
+}
 void juego_2(){
 
   if (flag == 1){
