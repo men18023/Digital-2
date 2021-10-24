@@ -72,7 +72,7 @@ void juego_1();
 void juego_2();
 void food();
 void game_over();
-char GameOver = 2;
+char GameOver = 3;
 extern uint8_t marioBitmap[]; // cargar bitmap desde memoria flash
 extern uint8_t tile2[];
 extern uint8_t tile4[];
@@ -212,11 +212,14 @@ void loop() {
   sensorValuey = analogRead(y); 
 //  sensorp = digitalRead(push);
   
-  if (GameOver == 2){
-      juego_1();
+  if (GameOver == 3){
+    inicio();
+  }
+  else if (GameOver == 2){
+    juego_1();
       }
   else if (GameOver == 1){
-      juego_2();
+    juego_2();
       }
 }
 

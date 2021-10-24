@@ -50,6 +50,76 @@ int pushR = PD_7;
 int sensorp = 0;
 int varp = 0;
 int inicial = 1;
+
+//Melody
+#include "pitches.h"
+
+void tone_function(int mel[], int duration[], int quant);
+int input = 0;
+// Menu music
+int melody_menu[] = { NOTE_B4, NOTE_B4, NOTE_B4, 0, NOTE_B4, NOTE_B4,
+                      NOTE_B4,NOTE_DS5, NOTE_B4, NOTE_B4, NOTE_A4, NOTE_G4, 
+                      NOTE_A4, NOTE_B4, NOTE_B4, NOTE_B4, NOTE_B4, 0,   
+                      NOTE_B4, NOTE_B4, NOTE_B4,NOTE_DS5, NOTE_B4, NOTE_B4, 
+                      NOTE_A4, NOTE_G4, NOTE_A4, NOTE_B4}; // 28
+
+// Start melody
+int melody_start[] = {NOTE_C4, NOTE_F4, NOTE_A4, NOTE_F4, NOTE_F4, 
+                      NOTE_C4, NOTE_F4, NOTE_A4, NOTE_G4}; // 9
+                
+// Collision w/ wall
+int melody_collision[] = {NOTE_DS8, NOTE_B0}; // 2
+
+
+//Game over music
+int melody_over[] = {NOTE_DS4, NOTE_D4, NOTE_CS4, NOTE_CS3}; // 4
+
+
+// Point
+int melody_point[] = {NOTE_C8}; //1
+
+
+// note durations: 4 = quarter note, 8 = eighth note, etc.:
+// Menu music
+int noteDurations_menu[] = {6,6,6,2,6, 6,6,4,4,4,
+                            2,2,2,2,6,6,6,2,6,6,
+                            6,4,4,4, 2, 2, 2, 2};
+
+// Start melody
+int noteDurations_start[] = {8,8,8,8,8,
+                              4,4,8,8};
+                       
+// Collision
+int noteDurations_collision[] = {4, 2};
+
+
+
+// Game over music
+int noteDurations_over[] = {3, 3, 2, 1};
+
+// Point
+int noteDurations_point[] = {8};
+
+void tone_function(int mel[], int duration[], int quant) {
+  //int sizeMel = sizeof mel/sizeof mel[0];
+  // iterate over the notes of the melody:
+  for (int thisNote = 0; thisNote < 30; thisNote++) {
+    // to calculate the note duration, take one second
+    // divided by the note type. //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+    int durations = 1000/duration[thisNote];
+    tone(PF_4, mel[thisNote],durations); //important to use PF_4 'cause of the PWM signal
+    // to distinguish the notes, set a minimum time between them.
+    // the note's duration + 30% seems to work well:
+    int pauseBetweenNotes = durations * 1.30; 
+    delay(pauseBetweenNotes);
+    // stop the tone playing:
+    noTone(PF_4);
+    if(thisNote == (quant-1)){
+      break;
+    }
+  }
+}
+
 //***************************************************************************************************************************************
 // Functions Prototypes
 //***************************************************************************************************************************************
@@ -211,6 +281,7 @@ void loop() {
 
   if (GameOver == 3){
     LCD_Bitmap(0, 0, 320, 240, uvg);
+    //tone_function(melody_menu, noteDurations_menu, 28);
     delay(2500);
     f_map = 2;
     GameOver = 2;
@@ -303,6 +374,7 @@ void juego_1(){
                           bunny.x, bunny.y, bunny.width, bunny.height); // detección de colisión
     if (collision_food) { // se reemplaza el color al colisionar
       Sprite_Clean();
+      //tone_function(melody_point, noteDurations_point, 1);
       pts1++;
       flag = 1;
       //LCD_Print(pts1, 5, 0, 2, 0xFFFF, 0x2305);
@@ -312,6 +384,7 @@ void juego_1(){
     collision_T = Collision(head.x, head.y, head.width, head.height,
                           T.x, T.y, T.width, T.height);
     if (collision_T) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 1;
       setup();
       //game_over();
@@ -323,6 +396,7 @@ void juego_1(){
     collision_R = Collision(head.x, head.y, head.width, head.height,
                           R.x, R.y, R.width, R.height);
     if (collision_R) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 1;
       setup();
       //game_over();
@@ -334,6 +408,7 @@ void juego_1(){
         collision_L = Collision(head.x, head.y, head.width, head.height,
                           L.x, L.y, L.width, L.height);
     if (collision_L) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 1;
       setup();
       //game_over();
@@ -345,6 +420,7 @@ void juego_1(){
     collision_B = Collision(head.x, head.y, head.width, head.height,
                           B.x, B.y, B.width, B.height);
     if (collision_B) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 1;
       setup();
       //game_over();
@@ -448,6 +524,7 @@ void juego_2(){
     collision_food = Collision(head.x, head.y, head.width, head.height,
                           bunny.x, bunny.y, bunny.width, bunny.height); // detección de colisión
     if (collision_food) { // se reemplaza el color al colisionar
+      //tone_function(melody_point, noteDurations_point, 1);
       pts2++;
       flag = 1;
       //LCD_Print(pts1, 5, 0, 2, 0xFFFF, 0x2305);
@@ -457,6 +534,7 @@ void juego_2(){
     collision_T = Collision(head.x, head.y, head.width, head.height,
                           T.x, T.y, T.width, T.height);
     if (collision_T) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 0;
       game_over();
     }
@@ -467,6 +545,7 @@ void juego_2(){
     collision_R = Collision(head.x, head.y, head.width, head.height,
                           R.x, R.y, R.width, R.height);
     if (collision_R) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 0;
       game_over();
     }
@@ -477,6 +556,7 @@ void juego_2(){
         collision_L = Collision(head.x, head.y, head.width, head.height,
                           L.x, L.y, L.width, L.height);
     if (collision_L) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 0;
       game_over();
     }
@@ -487,6 +567,7 @@ void juego_2(){
     collision_B = Collision(head.x, head.y, head.width, head.height,
                           B.x, B.y, B.width, B.height);
     if (collision_B) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 0;
       game_over();
     }
@@ -532,6 +613,7 @@ void game_over(){
   LCD_Sprite(head.x, head.y, head.width, head.height, tile2, head.columns, head.index, head.flip, head.offset);
   LCD_Sprite(bunny.x, bunny.y, bunny.width, bunny.height, tile4, bunny.columns, bunny.index, bunny.flip, bunny.offset);
   String gameOver = "GAME OVER";
+  tone_function(melody_over, noteDurations_over, 4);
   LCD_Print(gameOver, 90, 90, 2, 0xFFFF, 0x0000);
   if (pts2 > pts1){
     String winner1 = "PLAYER 2 WINS";
@@ -545,7 +627,7 @@ void game_over(){
     String tie = "ITS A TIE";
     LCD_Print(tie, 80, 120, 2, 0xFFFF, 0x0000);
   }
-   
+   tone_function(melody_start, noteDurations_start, 9);   
 }
 
 void Sprite_Clean(){
@@ -553,7 +635,7 @@ void Sprite_Clean(){
 }
 
 void Map(){
-      
+  
   FillRect(0,0,320,240, 0x2305);
   //LCD_Bitmap(0, 0, 320, 240, uvg);
   int snake_index = snake_index++;
