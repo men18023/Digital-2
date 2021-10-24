@@ -1,5 +1,7 @@
 /*
- MelodyPlays a melodycircuit:
+ Melody
+ Plays a melody
+ Circuit:
  * 8-ohm speaker on digital pin 8
  created 21 Jan 2010
  modified 30 Aug 2011
@@ -10,55 +12,53 @@
  Modified code to include more sounds for the passive buzzer and Tiva-c
 */
 
-
 #include "pitches.h"
 
 void tone_function(int mel[], int duration[], int quant);
 int input = 0;
-//Intro music
-int melody_intro[] = { NOTE_B4, NOTE_B4, NOTE_B4, 0, NOTE_B4, NOTE_B4, NOTE_B4,NOTE_DS5, NOTE_B4, NOTE_B4, NOTE_A4, NOTE_G4, 
-NOTE_A4, NOTE_B4, NOTE_B4, NOTE_B4, NOTE_B4, 0, NOTE_B4, NOTE_B4, NOTE_B4,NOTE_DS5, NOTE_B4, NOTE_B4, NOTE_A4, NOTE_G4, 
-NOTE_A4, NOTE_B4}; //28
+// Menu music
+int melody_menu[] = { NOTE_B4, NOTE_B4, NOTE_B4, 0, NOTE_B4, NOTE_B4,
+                      NOTE_B4,NOTE_DS5, NOTE_B4, NOTE_B4, NOTE_A4, NOTE_G4, 
+                      NOTE_A4, NOTE_B4, NOTE_B4, NOTE_B4, NOTE_B4, 0,   
+                      NOTE_B4, NOTE_B4, NOTE_B4,NOTE_DS5, NOTE_B4, NOTE_B4, 
+                      NOTE_A4, NOTE_G4, NOTE_A4, NOTE_B4}; // 28
 
-//Main menu melody
-int melody_menu[] = {NOTE_C4, NOTE_F4, NOTE_A4, NOTE_F4, NOTE_F4, 
-                NOTE_C4, NOTE_F4, NOTE_A4, NOTE_G4}; //9
+// Start melody
+int melody_start[] = {NOTE_C4, NOTE_F4, NOTE_A4, NOTE_F4, NOTE_F4, 
+                      NOTE_C4, NOTE_F4, NOTE_A4, NOTE_G4}; // 9
                 
-//Failed shot
-int melody_failed[] = {NOTE_DS8, NOTE_B0}; //LOSE SOUND 2
+// Collision w/ wall
+int melody_collision[] = {NOTE_DS8, NOTE_B0}; // 2
 
-
-//Winner 
-int melody_winner[] = {NOTE_B5, NOTE_C5, NOTE_D5, NOTE_C5, NOTE_D5, NOTE_E5, NOTE_D5, NOTE_E5}; //8
 
 //Game over music
-int melody_over[] = {NOTE_DS4, NOTE_D4, NOTE_CS4, NOTE_CS3}; //GAME OVER 3
+int melody_over[] = {NOTE_DS4, NOTE_D4, NOTE_CS4, NOTE_CS3}; // 4
 
 
-//No more bullets
-int melody_bull[] = {NOTE_C8}; //1
+// Point
+int melody_point[] = {NOTE_C8}; //1
 
 
 // note durations: 4 = quarter note, 8 = eighth note, etc.:
-//Intro music
-int noteDurations_intro[] = {6,6,6,2,6, 6,6,4,4,4,2,
-2,2,2,6,6,6,2,6,6,6,4,4,4, 2, 2, 2, 2};
+// Menu music
+int noteDurations_menu[] = {6,6,6,2,6, 6,6,4,4,4,
+                            2,2,2,2,6,6,6,2,6,6,
+                            6,4,4,4, 2, 2, 2, 2};
 
-//Main menu melody
-int noteDurations_menu[] = {8,8,8,8,8,
-                       4,4,8,8};
+// Start melody
+int noteDurations_start[] = {8,8,8,8,8,
+                              4,4,8,8};
                        
-//Failed shot
-int noteDurations_failed[] = {4, 2};
+// Collision
+int noteDurations_collision[] = {4, 2};
 
-//Winner
-int noteDurations_winner[] = {4,4,4,4,4,4,4,4};
 
-//Game over music
+
+// Game over music
 int noteDurations_over[] = {3, 3, 2, 1};
 
-//No more bullets
-int noteDurations_bull[] = {8};
+// Point
+int noteDurations_point[] = {8};
 
 void setup(){
   Serial.begin(9600); 
@@ -85,24 +85,24 @@ void tone_function(int mel[], int duration[], int quant) {
     }
   }
 }
+
 void loop() {
    if(Serial.available()){
         input = Serial.read();
-        //Serial.println(input);
         if (input == 49){
-          tone_function(melody_intro, noteDurations_intro, 28);
+          tone_function(melody_menu, noteDurations_menu, 28);
          
         }
         else if (input == 50){
-          tone_function(melody_menu, noteDurations_menu, 9);
+          tone_function(melody_start, noteDurations_start, 9);
          
         }
         else if (input == 51){
-          tone_function(melody_failed, noteDurations_failed, 3);
+          tone_function(melody_collision, noteDurations_collision, 3);
           
         }
         else if (input == 52){
-          tone_function(melody_bull, noteDurations_bull, 1);
+          tone_function(melody_point, noteDurations_point, 1);
           
         }
         else if (input == 53){
