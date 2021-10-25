@@ -33,25 +33,99 @@
 #define LCD_WR PD_3
 #define LCD_RD PE_1
 int DPINS[] = {PB_0, PB_1, PB_2, PB_3, PB_4, PB_5, PB_6, PB_7};  
-int x = PE_2;    // select the input pin for the potentiometer
-//int ledPinx = PF_2;      // select the pin for the LED
-int sensorValuex = 0;  // variable to store the value coming from the sensor
-int y = PE_3;
-//int ledPiny = PF_1;
-int sensorValuey = 0;
+//variables generales y banderas
+int flag = 0;
+int pts1 = 0;
+int pts2 = 0;
+int f_up1 = 0;
+int f_down1 = 0;
+int f_right1 = 0;
+int f_left1 = 0;
+int f_up2 = 0;
+int f_down2 = 0;
+int f_right2 = 0;
+int f_left2 = 0;
+int f_map = 2;
+// variables de pushbuttons para movimiento sprite
 int right = 0;
 int left = 0;
 int up = 0;
 int down = 0;
-int f_up = 0;
-int f_down = 0;
-int f_right = 0;
-int f_left = 0;
+int pushU = PC_6;
+int pushD = PC_7;
+int pushL = PA_7;
+int pushR = PD_7;
+int inicial = 1;
+
+//Melody
+#include "pitches.h"
+
+void tone_function(int mel[], int duration[], int quant);
+int input = 0;
+// Menu music
+int melody_menu[] = { NOTE_B4, NOTE_B4, NOTE_B4, 0, NOTE_B4, NOTE_B4,
+                      NOTE_B4,NOTE_DS5, NOTE_B4, NOTE_B4, NOTE_A4, NOTE_G4, 
+                      NOTE_A4, NOTE_B4, NOTE_B4, NOTE_B4, NOTE_B4, 0,   
+                      NOTE_B4, NOTE_B4, NOTE_B4,NOTE_DS5, NOTE_B4, NOTE_B4, 
+                      NOTE_A4, NOTE_G4, NOTE_A4, NOTE_B4}; // 28
+
+// Start melody
+int melody_start[] = {NOTE_C4, NOTE_F4, NOTE_A4, NOTE_F4, NOTE_F4, 
+                      NOTE_C4, NOTE_F4, NOTE_A4, NOTE_G4}; // 9
+                
+// Collision w/ wall
+int melody_collision[] = {NOTE_DS8, NOTE_B0}; // 2
 
 
-int push = PD_7;
-//int sensorp = 0;
-//int varp = 0;
+//Game over music
+int melody_over[] = {NOTE_DS4, NOTE_D4, NOTE_CS4, NOTE_CS3}; // 4
+
+
+// Point
+int melody_point[] = {NOTE_C8}; //1
+
+
+// note durations: 4 = quarter note, 8 = eighth note, etc.:
+// Menu music
+int noteDurations_menu[] = {6,6,6,2,6, 6,6,4,4,4,
+                            2,2,2,2,6,6,6,2,6,6,
+                            6,4,4,4, 2, 2, 2, 2};
+
+// Start melody
+int noteDurations_start[] = {8,8,8,8,8,
+                              4,4,8,8};
+                       
+// Collision
+int noteDurations_collision[] = {4, 2};
+
+
+
+// Game over music
+int noteDurations_over[] = {3, 3, 2, 1};
+
+// Point
+int noteDurations_point[] = {8};
+
+void tone_function(int mel[], int duration[], int quant) {
+  //int sizeMel = sizeof mel/sizeof mel[0];
+  // iterate over the notes of the melody:
+  for (int thisNote = 0; thisNote < 30; thisNote++) {
+    // to calculate the note duration, take one second
+    // divided by the note type. //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+    int durations = 1000/duration[thisNote];
+    tone(PF_4, mel[thisNote],durations); //important to use PF_4 'cause of the PWM signal
+    // to distinguish the notes, set a minimum time between them.
+    // the note's duration + 30% seems to work well:
+    int pauseBetweenNotes = durations * 1.30; 
+    delay(pauseBetweenNotes);
+    // stop the tone playing:
+    noTone(PF_4);
+    if(thisNote == (quant-1)){
+      break;
+    }
+  }
+}
+
 //***************************************************************************************************************************************
 // Functions Prototypes
 //***************************************************************************************************************************************
@@ -68,19 +142,19 @@ void LCD_Print(String text, int x, int y, int fontSize, int color, int backgroun
 void LCD_Bitmap(unsigned int x, unsigned int y, unsigned int width, unsigned int height, unsigned char bitmap[]);
 void LCD_Sprite(int x, int y, int width, int height, unsigned char bitmap[],int columns, int index, char flip, char offset);
 bool Collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2);
-void juego_1();
-void juego_2();
+void Sprite_Clean();
+void juego();
 void food();
 void game_over();
+void inicio();
+void Map();
 char GameOver = 3;
+
 extern uint8_t marioBitmap[]; // cargar bitmap desde memoria flash
 extern uint8_t tile2[];
 extern uint8_t tile4[];
-int flag = 0;
-int pts1 = 0;
-int pts2 = 0;
-//int pts1 = 0;
-//int pts1 = 0;
+extern uint8_t background[];
+
 Sd2Card card;
 SdVolume volume;
 SdFile root;
@@ -138,16 +212,14 @@ void setup() {
   LCD_Init();
   LCD_Clear(0x00);
   
-  
-  LCD_Bitmap(0, 0, 320, 240, uvg);
   pinMode(PUSH1, INPUT_PULLUP); // botones integrados con como entrada pull-up
   pinMode(PUSH2, INPUT_PULLUP);
+  pinMode(pushU, INPUT);
+  pinMode(pushD, INPUT);
+  pinMode(pushL, INPUT);
+  pinMode(pushR, INPUT);
     // declare the ledPin as an OUTPUT:
-  //pinMode(led, OUTPUT);  
-  //pinMode(left, OUTPUT);
-  //pinMode(up, OUTPUT);
-  pinMode(push, INPUT_PULLUP);
-  
+  //valores iniciales de las paredes del cuadro de juego
   T.x = 9;
   T.y = 49;
   T.width = 301;
@@ -171,7 +243,7 @@ void setup() {
   L.width = 1;
   L.height = 181;
   L.color = 0xFFFF;
-
+  // valor inciial de la cabeza del snake y de la comida
   head.x = 16;
   head.y = 60;
   head.width = 16;
@@ -181,101 +253,128 @@ void setup() {
   head.flip = 0;
   head.offset = 0;
 
-
   bunny.width = 16;
   bunny.height = 16;
   bunny.columns = 4;
   bunny.index = 2;
   bunny.flip = 1;
   bunny.offset = 0;
-  flag = 1;
-
-  FillRect(0,0,320,240, 0x2305);
-  //String pts1 = pts;
-  String text1 = "Pts P1:";
-  String text2 = "Pts P2:";
-  LCD_Print(text1, 5, 0, 2, 0xFFFF, 0x2305);
-  LCD_Print(text2, 5, 30, 2, 0xFFFF, 0x2305);
-  FillRect(10,50,300,180, 0x0000);
-  Rect(T.x, T.y, T.width , T.height, T.color);
-  Rect(B.x, B.y, B.width , B.height, B.color);
-  Rect(R.x, R.y, R.width , R.height, R.color);
-  Rect(L.x, L.y, L.width , L.height, L.color);
-  GameOver == 2;
+  flag = 1;      //flag para colocar un conejo al inicio del juego
   delay(1000);
 }
 //***************************************************************************************************************************************
 // Loop
 //***************************************************************************************************************************************
 void loop() {
-  sensorValuex = analogRead(x);    
-  sensorValuey = analogRead(y); 
-//  sensorp = digitalRead(push);
-  
+  // mostrar menu al inicio
   if (GameOver == 3){
-    inicio();
+    LCD_Bitmap(0, 0, 320, 240, uvg);
+    //tone_function(melody_menu, noteDurations_menu, 28);
+    delay(2500);
+    f_map = 2;
+    GameOver = 2;
   }
-  else if (GameOver == 2){
-    juego_1();
+  else if (GameOver == 2){   //inicio juego jugador 1
+      if (f_map == 2){
+        Map();
+        f_map = 1;
       }
-  else if (GameOver == 1){
-    juego_2();
+      juego_1();
+      }
+  else if (GameOver == 1){   //inicio juego jugador 2
+      if (f_map == 1){
+        Map();
+        f_map = 0;
+      }
+      juego_2();
       }
 }
 
 void juego_1(){
 
-  if (flag == 1){
+  if (flag == 1){   // colocacion al azar de un conejo en el mapa
     bunny.x = random(10,290);
     bunny.y = random(50,216);
-    flag = 0;
+    flag = 0;     // se baja la bandera hasta que exista colision
   }
   
   unsigned long currentMillis = millis();
   // actualización de frame cada 42ms = 24fps
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
-    bool down = !digitalRead(PUSH1); // lectura de entradas
-    bool right = !digitalRead(PUSH2);
+    //bool up = !digitalRead(pushU);
+    //bool left = !digitalRead(pushL); 
+    int down = digitalRead(pushD); // lectura de entradas para movimientos del sprite
+    int right = digitalRead(pushR);
+    int up = digitalRead(pushU);
+    int left = digitalRead(pushL);
       delay(10);
-    if (right) { // modificación de atributos de sprite
-      f_right = 1;
-      f_left = 0;
-      f_up = 0;
-      f_down = 0;
+    if (right) { // activaciin de banderas para movimientos constantes en ciertas direccion
+       f_right1 = 1;
+       f_left1 = 0;
+       f_up1 = 0;
+       f_down1 = 0;
     }
     if (down) {
-      f_right = 0;
-      f_left = 0;
-      f_up = 0;
-      f_down = 1;
+       f_right1 = 0;
+       f_left1 = 0;
+       f_up1 = 0;
+       f_down1 = 1;
     } 
-    if (up) {
-
-    if (f_down == 1){
-      head.y += 4;
-      head.index = 2;
-      head.flip = 1;
+    if (up) { 
+       f_right1 = 0;
+       f_left1 = 0;
+       f_up1 = 1;
+       f_down1 = 0;
     }
-    if (f_right == 1){
+    if (left) {
+       f_right1 = 0;
+       f_left1 = 1;
+       f_up1 = 0;
+       f_down1 = 0;
+    } 
+    if (f_right1 == 1){  //configuraciones del direccion del movimiento del sprite y su respectivo index para cada direccion
       head.x += 4;
+      //head.index++;
       head.index = 1;
       head.flip = 0;
     }
+    if (f_down1 == 1){
+      head.y += 4;
+      //head.index++;
+      head.index = 2;
+      head.flip = 1;
+    }
+    if (f_up1 == 1){
+      head.y -= 4;
+      //head.index++;
+      head.index = 0;
+      head.flip = 1;
+    }
+    if (f_left1 == 1){
+      head.x -= 4;
+      //head.index++;
+      head.index = 1;
+      head.flip = 1;
+    }
 
     collision_food = Collision(head.x, head.y, head.width, head.height,
-                          bunny.x, bunny.y, bunny.width, bunny.height); // detección de colisión
-    if (collision_food) { // se reemplaza el color al colisionar
+                          bunny.x, bunny.y, bunny.width, bunny.height); // detección de colisión con los conejos
+    if (collision_food) { // se suma un punto al contador y se activa la bandera de mapear un conejo al azar
+      Sprite_Clean();
+      //tone_function(melody_point, noteDurations_point, 1);
       pts1++;
       flag = 1;
       //LCD_Print(pts1, 5, 0, 2, 0xFFFF, 0x2305);
     }
     else {
     }
+    //Colisiones con los laterales del mapa, cuando se pierde
     collision_T = Collision(head.x, head.y, head.width, head.height,
                           T.x, T.y, T.width, T.height);
     if (collision_T) { // se reemplaza el color al colisionar
-      GameOver = 1;
+      tone_function(melody_collision, noteDurations_collision, 3);
+      GameOver = 1;  //llamada a iniciar el juego para el jugador 2
       setup();
       //game_over();
     }
@@ -286,6 +385,7 @@ void juego_1(){
     collision_R = Collision(head.x, head.y, head.width, head.height,
                           R.x, R.y, R.width, R.height);
     if (collision_R) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 1;
       setup();
       //game_over();
@@ -297,6 +397,7 @@ void juego_1(){
         collision_L = Collision(head.x, head.y, head.width, head.height,
                           L.x, L.y, L.width, L.height);
     if (collision_L) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 1;
       setup();
       //game_over();
@@ -308,6 +409,7 @@ void juego_1(){
     collision_B = Collision(head.x, head.y, head.width, head.height,
                           B.x, B.y, B.width, B.height);
     if (collision_B) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 1;
       setup();
       //game_over();
@@ -318,25 +420,32 @@ void juego_1(){
 
     
     //FillRect(rect.x, rect.y, rect.width, rect.height, rect.color);
-    if (head.index == 1){ // dependiendo de la dirección, se colorea resto del sprite del frame anterior
-      FillRect(head.x - 4, head.y, 4, head.height, 0x0000);
+    if (head.index == 1 && head.flip == 0){ // dependiendo de la dirección, se colorea resto del sprite del frame anterior para las 4 direcciones de movimiento
+      FillRect(head.x - 4, head.y, 4, head.height, 0x0000); // derecha
     }
-    else if (head.index == 2){
-      FillRect(head.x, head.y - 4, head.width, 4, 0x0000);
+    else if (head.index == 2 && head.flip == 1){
+      FillRect(head.x, head.y - 4, head.width, 4, 0x0000); // abajo
     }
-    LCD_Sprite(head.x, head.y, head.width, head.height, tile2, head.columns, head.index, head.flip, head.offset);
+    else if (head.index == 0 && head.flip == 1){
+      FillRect(head.x, head.y + 16, head.width, 4, 0x0000);// arriba
+    }
+    else if (head.index == 1 && head.flip == 1){
+      FillRect(head.x + 16, head.y, 4, head.height, 0x0000); //izquierda
+    }
+    LCD_Sprite(head.x, head.y, head.width, head.height, tile2, head.columns, head.index, head.flip, head.offset); //se muestra la snake
     //food();
     //if (bunny.x != head.x && bunny.y != head.y){
-    LCD_Sprite(bunny.x, bunny.y, bunny.width, bunny.height, tile4, bunny.columns, bunny.index, bunny.flip, bunny.offset);
-    String p1 = String(pts1);
+    LCD_Sprite(bunny.x, bunny.y, bunny.width, bunny.height, tile4, bunny.columns, bunny.index, bunny.flip, bunny.offset);  // se muestra el conejo
+    String p1 = String(pts1); //valores a mostrar en el marcador
+    String p2 = String(pts2);
     
+    LCD_Print(p2, 150, 20, 2, 0xFFFF, 0x2305);  //se muestra en pantalla el marcador
     LCD_Print(p1, 150, 0, 2, 0xFFFF, 0x2305);
     
   }
   }
-}
-void juego_2(){
-
+void juego_2(){  //se repite el juego uno pero para el jugador 2, cambiando valor del marcador
+  
   if (flag == 1){
     bunny.x = random(10,290);
     bunny.y = random(50,216);
@@ -347,25 +456,64 @@ void juego_2(){
   // actualización de frame cada 42ms = 24fps
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
-    bool left = !digitalRead(PUSH1); // lectura de entradas
-    bool right = !digitalRead(PUSH2);
+    int down = digitalRead(pushD); // lectura de entradas
+    int right = digitalRead(pushR);
+    int up = digitalRead(pushU);
+    int left = digitalRead(pushL);
       delay(10);
-      if (right) { // modificación de atributos de sprite
+    if (right) { 
+       f_right2 = 1;
+       f_left2 = 0;
+       f_up2 = 0;
+       f_down2 = 0;
+    }
+    if (down) {
+       f_right2 = 0;
+       f_left2 = 0;
+       f_up2 = 0;
+       f_down2 = 1;
+    } 
+    if (up) { 
+       f_right2 = 0;
+       f_left2 = 0;
+       f_up2 = 1;
+       f_down2 = 0;
+    }
+    if (left) {
+       f_right2 = 0;
+       f_left2 = 1;
+       f_up2 = 0;
+       f_down2 = 0;
+    } 
+    if (f_right2 == 1){
       head.x += 4;
       //head.index++;
       head.index = 1;
       head.flip = 0;
     }
-    if (left) {
+    if (f_down2 == 1){
       head.y += 4;
       //head.index++;
       head.index = 2;
       head.flip = 1;
-    } 
+    }
+    if (f_up2 == 1){
+      head.y -= 4;
+      //head.index++;
+      head.index = 0;
+      head.flip = 1;
+    }
+    if (f_left2 == 1){
+      head.x -= 4;
+      //head.index++;
+      head.index = 1;
+      head.flip = 1;
+    }
 
     collision_food = Collision(head.x, head.y, head.width, head.height,
                           bunny.x, bunny.y, bunny.width, bunny.height); // detección de colisión
-    if (collision_food) { // se reemplaza el color al colisionar
+    if (collision_food) { 
+      //tone_function(melody_point, noteDurations_point, 1);
       pts2++;
       flag = 1;
       //LCD_Print(pts1, 5, 0, 2, 0xFFFF, 0x2305);
@@ -375,6 +523,7 @@ void juego_2(){
     collision_T = Collision(head.x, head.y, head.width, head.height,
                           T.x, T.y, T.width, T.height);
     if (collision_T) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 0;
       game_over();
     }
@@ -385,6 +534,7 @@ void juego_2(){
     collision_R = Collision(head.x, head.y, head.width, head.height,
                           R.x, R.y, R.width, R.height);
     if (collision_R) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 0;
       game_over();
     }
@@ -395,6 +545,7 @@ void juego_2(){
         collision_L = Collision(head.x, head.y, head.width, head.height,
                           L.x, L.y, L.width, L.height);
     if (collision_L) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 0;
       game_over();
     }
@@ -405,6 +556,7 @@ void juego_2(){
     collision_B = Collision(head.x, head.y, head.width, head.height,
                           B.x, B.y, B.width, B.height);
     if (collision_B) { // se reemplaza el color al colisionar
+      tone_function(melody_collision, noteDurations_collision, 3);
       GameOver = 0;
       game_over();
     }
@@ -414,38 +566,79 @@ void juego_2(){
 
     
     //FillRect(rect.x, rect.y, rect.width, rect.height, rect.color);
-    if (head.index == 1){ // dependiendo de la dirección, se colorea resto del sprite del frame anterior
-      FillRect(head.x - 4, head.y, 4, head.height, 0x0000);
+    //FillRect(rect.x, rect.y, rect.width, rect.height, rect.color);
+    if (head.index == 1 && head.flip == 0){ // dependiendo de la dirección, se colorea resto del sprite del frame anterior
+      FillRect(head.x - 4, head.y, 4, head.height, 0x0000); // derecha
     }
-    else if (head.index == 2){
-      FillRect(head.x, head.y - 4, head.width, 4, 0x0000);
+    else if (head.index == 2 && head.flip == 1){
+      FillRect(head.x, head.y - 4, head.width, 4, 0x0000); // abajo
+    }
+    else if (head.index == 0 && head.flip == 1){
+      FillRect(head.x, head.y + 16, head.width, 4, 0x0000);// arriba
+    }
+    else if (head.index == 1 && head.flip == 1){
+      FillRect(head.x + 16, head.y, 4, head.height, 0x0000); //izquierda
     }
     LCD_Sprite(head.x, head.y, head.width, head.height, tile2, head.columns, head.index, head.flip, head.offset);
     //food();
     //if (bunny.x != head.x && bunny.y != head.y){
     LCD_Sprite(bunny.x, bunny.y, bunny.width, bunny.height, tile4, bunny.columns, bunny.index, bunny.flip, bunny.offset);
     String p2 = String(pts2);
-    
+    String p1 = String(pts1);
+    LCD_Print(p1, 150, 0, 2, 0xFFFF, 0x2305);
     LCD_Print(p2, 150, 20, 2, 0xFFFF, 0x2305);
     
   }
   }
-void food(){
-  int validPlace = 0;
-  while (!validPlace){
-    bunny.x = 10 + bunny.x;
-    bunny.y = 10 + bunny.y;
- }
- return;
+
+void game_over(){ //pantalla cuando ambos jugadores pierden
+  //LCD_Clear(0x0000);
+  head.x = 130;
+  head.y = 60;
+  bunny.x = 150;
+  bunny.y = 60;
+  LCD_Bitmap(0, 0, 320, 240, uvg);
+  //FillRect(0, 0, 320, 240, 0x0000);
+  LCD_Sprite(head.x, head.y, head.width, head.height, tile2, head.columns, head.index, head.flip, head.offset);
+  LCD_Sprite(bunny.x, bunny.y, bunny.width, bunny.height, tile4, bunny.columns, bunny.index, bunny.flip, bunny.offset);
+  String gameOver = "GAME OVER"; //se muestra que el juego se acaba
+  tone_function(melody_over, noteDurations_over, 4); //sonido de perder
+  LCD_Print(gameOver, 90, 90, 2, 0xFFFF, 0x0000);
+  if (pts2 > pts1){  //se muestra el ganador de la partida
+    String winner1 = "PLAYER 2 WINS";
+    LCD_Print(winner1, 50, 130, 2, 0xFFFF, 0x0000);
+  }
+  else if (pts2 < pts1){
+    String winner2 = "PLAYER 1 WINS";
+    LCD_Print(winner2, 50, 130, 2, 0xFFFF, 0x0000);
+  }
+  else{
+    String tie = "ITS A TIE";
+    LCD_Print(tie, 80, 120, 2, 0xFFFF, 0x0000);
+  }
+   tone_function(melody_start, noteDurations_start, 9);   
 }
 
-void game_over(){
-  LCD_Clear(0x0000);
-  FillRect(0, 0, 320, 240, 0xFFFF);
-  String gameOver = "GAME OVER";
-  LCD_Print(gameOver, 100, 120, 2, 0xFFFF, 0x0000);
-  
+void Sprite_Clean(){
+   Rect(bunny.x, bunny.y, bunny.width, bunny.height, 0xFFFF);
 }
+
+void Map(){
+  //configuacion del mapa para ambos turnos
+  FillRect(0,0,320,240, 0x2305);
+  //LCD_Bitmap(0, 0, 320, 240, uvg);
+  int snake_index = snake_index++;
+  LCD_Sprite(250, 10, 32, 32, marioBitmap, 7, snake_index, 0, 0);
+  String text1 = "Pts P1:";
+  String text2 = "Pts P2:";
+  LCD_Print(text1, 5, 0, 2, 0xFFFF, 0x2305);
+  LCD_Print(text2, 5, 30, 2, 0xFFFF, 0x2305);
+  FillRect(10,50,300,180, 0x0000);
+  Rect(T.x, T.y, T.width , T.height, T.color);
+  Rect(B.x, B.y, B.width , B.height, B.color);
+  Rect(R.x, R.y, R.width , R.height, R.color);
+  Rect(L.x, L.y, L.width , L.height, L.color);
+  }
 //***************************************************************************************************************************************
 // Función para inicializar LCD
 //***************************************************************************************************************************************
