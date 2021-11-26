@@ -13,9 +13,12 @@
 //************************************************************************************************
 // Variables globales
 //************************************************************************************************
+uint8_t cont;
+uint8_t x;
+
 // SSID & Password
-const char* ssid = "HUAWEI";  // Enter your SSID here
-const char* password = "1121RAG31";  //Enter your Password here
+const char* ssid = "TURBO-S101";  // Enter your SSID here
+const char* password = "8cf0185767";  //Enter your Password here
 
 WebServer server(80);  // Object of WebServer(HTTP port, 80 is defult)
 
@@ -25,12 +28,19 @@ bool LED1status = LOW;
 //************************************************************************************************
 //Variables
 //************************************************************************************************
+//TIVA PARQUEO 1
 uint8_t bandera = 0;
 uint8_t parqueo_1 = 0;
 uint8_t parqueo_2 = 0;
 uint8_t parqueo_3 = 0;
 uint8_t parqueo_4 = 0;
 uint8_t parq_disp = 0;
+//TIVA PARQUEO 2
+uint8_t bandera2 = 0;
+uint8_t parqueo_5 = 0;
+uint8_t parqueo_6 = 0;
+uint8_t parqueo_7 = 0;
+uint8_t parqueo_8 = 0;
 //************************************************************************************************
 // Configuración
 //************************************************************************************************
@@ -43,6 +53,15 @@ void setup() {
 
   // Connect to your wi-fi modem
   WiFi.begin(ssid, password);
+  
+  // para display 7 segmentos
+  pinMode(18, OUTPUT);
+  pinMode(19, OUTPUT);
+  pinMode(21, OUTPUT);
+  pinMode(32, OUTPUT);
+  pinMode(33, OUTPUT);
+  pinMode(25, OUTPUT);
+  pinMode(26, OUTPUT);
 
   // Check wi-fi is connected to wi-fi network
   while (WiFi.status() != WL_CONNECTED) {
@@ -69,35 +88,86 @@ void setup() {
 //************************************************************************************************
 void loop() {
   server.handleClient();
- if (Serial.available() > 0) {
+  disp(x);
+  if (Serial.available() > 0) {
     bandera =Serial.read();
     Serial.println(bandera);
+
+    //cont = 5;
+    //x = cont;
     //Funcionamiento para que se muestre en el sitio web 
     if (bandera & 0x01){
       parqueo_1 = 1;
+      //cont--;
+      //x =  cont;
+      
     }
     else {
       parqueo_1 = 0;
+      //cont++;
+      //x =  cont;
     }
     if (bandera & 0x02){
       parqueo_2 = 1;
+      //cont--;
+      //x =  cont;
     }
     else {
       parqueo_2 = 0;
+      //cont--;
+      //x =  cont;
     }
     if (bandera & 0x04){
       parqueo_3 = 1;
+      //cont--;
+      //x =  cont;
     }
     else {
       parqueo_3 = 0;
+      //cont--;
+      //x =  cont;
     }
     if (bandera & 0x08){
       parqueo_4 = 1;
+      //cont--;
+      //x =  cont;
     }
     else {
       parqueo_4 = 0;
+      //cont--;
+      //x =  cont;
     }
     Serial.println(parqueo_1);
+  }
+  if (Serial2.available() > 0) {
+    bandera2 =Serial2.read();
+    Serial2.println(bandera);
+    //Funcionamiento para que se muestre en el sitio web 
+    if (bandera2 & 0x01){
+      parqueo_5 = 1;
+    }
+    else {
+      parqueo_5 = 0;
+    }
+    if (bandera2 & 0x02){
+      parqueo_6 = 1;
+    }
+    else {
+      parqueo_6 = 0;
+    }
+    if (bandera2 & 0x04){
+      parqueo_7 = 1;
+    }
+    else {
+      parqueo_7 = 0;
+    }
+    if (bandera2 & 0x08){
+      parqueo_8 = 1;
+    }
+    else {
+      parqueo_8 = 0;
+    }
+    Serial2.println(parqueo_5);
   }
 }
 //************************************************************************************************
@@ -106,8 +176,9 @@ void loop() {
 void handle_OnConnect() {
   LED1status = LOW;
   Serial.println("GPIO2 Status: OFF");
-  parq_disp = -(parqueo_1 + parqueo_2 + parqueo_3 + parqueo_4 ) + 4 ;
-  server.send(200, "text/html", SendHTML2(parqueo_1, parqueo_2, parqueo_3, parqueo_4, parq_disp));
+  parq_disp = -(parqueo_1 + parqueo_2 + parqueo_3 + parqueo_4 + parqueo_5 + parqueo_6 + parqueo_7 + parqueo_8) + 8 ;
+  x = parq_disp;
+  server.send(200, "text/html", SendHTML2(parqueo_1, parqueo_2, parqueo_3, parqueo_4, parqueo_5, parqueo_6, parqueo_7, parqueo_8, parq_disp));
 }
 //************************************************************************************************
 // Handler de led1on
@@ -129,7 +200,7 @@ void handle_led1off() {
 // Procesador de HTML
 //************************************************************************************************
 //Pagina web y funcionamiento del parqueo disponible y ocupado 
-String SendHTML2(uint8_t parq_1, uint8_t parq_2, uint8_t parq_3, uint8_t parq_4, uint8_t parq_disp) {
+String SendHTML2(uint8_t parq_1, uint8_t parq_2, uint8_t parq_3, uint8_t parq_4,uint8_t parq_5, uint8_t parq_6, uint8_t parq_7, uint8_t parq_8, uint8_t parq_disp) {
   String pagina = "<html>\n";
 pagina +="<!doctype html>\n";
 pagina +="<html lang=\"en\">\n";
@@ -199,6 +270,54 @@ else {
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
+if (parqueo_5 == 1){
+  pagina +="    <th scope=\"row\">Espacio #5</th>\n";
+  pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
+  pagina +="    </tr>\n";
+  pagina +="    <tr>\n";
+}
+else {
+  pagina +="    <th scope=\"row\">Espacio #5</th>\n";
+  pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
+  pagina +="    </tr>\n";
+  pagina +="    <tr>\n";
+}
+if (parqueo_6 == 1){
+  pagina +="    <th scope=\"row\">Espacio #6</th>\n";
+  pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
+  pagina +="    </tr>\n";
+  pagina +="    <tr>\n";
+}
+else {
+  pagina +="    <th scope=\"row\">Espacio #6</th>\n";
+  pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
+  pagina +="    </tr>\n";
+  pagina +="    <tr>\n";
+}
+if (parqueo_7 == 1){
+  pagina +="    <th scope=\"row\">Espacio #7</th>\n";
+  pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
+  pagina +="    </tr>\n";
+  pagina +="    <tr>\n";
+}
+else {
+  pagina +="    <th scope=\"row\">Espacio #7</th>\n";
+  pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
+  pagina +="    </tr>\n";
+  pagina +="    <tr>\n";
+}
+if (parqueo_8 == 1){
+  pagina +="    <th scope=\"row\">Espacio #8</th>\n";
+  pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
+  pagina +="    </tr>\n";
+  pagina +="    <tr>\n";
+}
+else {
+  pagina +="    <th scope=\"row\">Espacio #8</th>\n";
+  pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
+  pagina +="    </tr>\n";
+  pagina +="    <tr>\n";
+}
 
 pagina +="  </tbody>\n";
 pagina +="  </tfoot>\n";
@@ -260,4 +379,103 @@ String SendHTML(uint8_t led1stat) {
 //************************************************************************************************
 void handle_NotFound() {
   server.send(404, "text/plain", "Not found");
+}
+
+void disp(uint8_t segment) {
+
+  switch (segment) {
+
+    case 0: //0
+      digitalWrite(26, HIGH); //a
+      digitalWrite(25, HIGH); //b
+      digitalWrite(18, HIGH); //c
+      digitalWrite(21, HIGH); //d
+      digitalWrite(19, HIGH); //e
+      digitalWrite(32, HIGH); //f
+      digitalWrite(33, LOW); //g
+      break;
+
+    case 1: //1
+      digitalWrite(26, LOW); //a
+      digitalWrite(25, HIGH); //b
+      digitalWrite(18, HIGH); //c
+      digitalWrite(21, LOW); //d
+      digitalWrite(19, LOW); //e
+      digitalWrite(32, LOW); //f
+      digitalWrite(33, LOW); //g
+      break;
+    case 2: //2
+      digitalWrite(26, HIGH); //a
+      digitalWrite(25, HIGH); //b
+      digitalWrite(18, LOW); //c
+      digitalWrite(21, HIGH); //d
+      digitalWrite(19, HIGH); //e
+      digitalWrite(32, LOW); //f
+      digitalWrite(33, HIGH); //g
+      break;
+    case 3: //3
+      digitalWrite(26, HIGH); //a
+      digitalWrite(25, HIGH); //b
+      digitalWrite(18, HIGH); //c
+      digitalWrite(21, HIGH); //d
+      digitalWrite(19, LOW); //e
+      digitalWrite(32, LOW); //f
+      digitalWrite(33, HIGH); //g
+      break;
+    case 4: //4
+      digitalWrite(26, LOW); //a
+      digitalWrite(25, HIGH); //b
+      digitalWrite(18, HIGH); //c
+      digitalWrite(21, LOW); //d
+      digitalWrite(19, LOW); //e
+      digitalWrite(32, HIGH); //f
+      digitalWrite(33, HIGH);
+      break;
+    case 5: //5
+      digitalWrite(26, HIGH); //a
+      digitalWrite(25, LOW); //b
+      digitalWrite(18, HIGH); //c
+      digitalWrite(21, HIGH); //d
+      digitalWrite(19, LOW); //e
+      digitalWrite(32, HIGH); //f
+      digitalWrite(33, HIGH);
+      break;
+    case 6: //6
+      digitalWrite(26, HIGH); //a
+      digitalWrite(25, LOW); //b
+      digitalWrite(18, HIGH); //c
+      digitalWrite(21, HIGH); //d
+      digitalWrite(19, HIGH); //e
+      digitalWrite(32, HIGH); //f
+      digitalWrite(33, HIGH);
+      break;
+    case 7: //7
+      digitalWrite(26, HIGH); //a
+      digitalWrite(25, HIGH); //b
+      digitalWrite(18, HIGH); //c
+      digitalWrite(21, LOW); //d
+      digitalWrite(19, LOW); //e
+      digitalWrite(32, LOW); //f
+      digitalWrite(33, LOW);
+      break;
+    case 8: //8
+      digitalWrite(26, HIGH); //a
+      digitalWrite(25, HIGH); //b
+      digitalWrite(18, HIGH); //c
+      digitalWrite(21, HIGH); //d
+      digitalWrite(19, HIGH); //e
+      digitalWrite(32, HIGH); //f
+      digitalWrite(33, HIGH);
+      break;
+    default:
+      digitalWrite(26, HIGH); //a
+      digitalWrite(25, HIGH); //b
+      digitalWrite(18, HIGH); //c
+      digitalWrite(21, HIGH); //d
+      digitalWrite(19, HIGH); //e
+      digitalWrite(32, HIGH); //f
+      digitalWrite(33, HIGH);
+      break;
+
+  }
 }

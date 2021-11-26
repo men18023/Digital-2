@@ -38,10 +38,10 @@ int main(void)
     //Reloj
     SysCtlClockSet(SYSCTL_SYSDIV_5|SYSCTL_USE_PLL|SYSCTL_XTAL_16MHZ|SYSCTL_OSC_MAIN);
     //Se utilizo el puerto b y e para el display
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-    GPIOPinTypeGPIOOutput(GPIO_PORTB_BASE, GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6);//pines a utilizar
-    GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_4|GPIO_PIN_5);
+    //SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+    //SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
+   // GPIOPinTypeGPIOOutput(GPIO_PORTB_BASE, GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6);//pines a utilizar
+    //GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_4|GPIO_PIN_5);
     //Puerto c para los push
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
     GPIOPinTypeGPIOInput(GPIO_PORTC_BASE, GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7); //pines a utilizar
