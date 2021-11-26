@@ -46,6 +46,7 @@ uint8_t parqueo_8 = 0;
 //************************************************************************************************
 void setup() {
   Serial.begin(115200);
+  Serial2.begin(115200);
   Serial.println("Try Connecting to ");
   Serial.println(ssid);
 
@@ -211,7 +212,7 @@ pagina +="    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css
 pagina +="    <title>Parqueos</title>\n";
 pagina +="  </head>\n";
 pagina +="  <body>\n";
-pagina +="    <h1>CONTROL DE REGISTRO PARA PARQUEO</h1>    \n";
+pagina +="    <h1>CONTROL DE PARQUEOS</h1>    \n";
 pagina +="    <table class=\"table table-hover\">\n";
 pagina +="  <thead class=\"table table-hover\">\"\n";
 pagina +="    <tr class=\"table-active\">\n";
@@ -223,97 +224,97 @@ pagina +="  <tbody>\n";
 pagina +="    <tr>\n";
 
 if (parqueo_1 == 1){
-  pagina +="    <th scope=\"row\">Espacio #1</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#1</th>\n";
   pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 else {
-  pagina +="    <th scope=\"row\">Espacio #1</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#1</th>\n";
   pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 if (parqueo_2 == 1){
-  pagina +="    <th scope=\"row\">Espacio #2</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#2</th>\n";
   pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 else {
-  pagina +="    <th scope=\"row\">Espacio #2</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#2</th>\n";
   pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 if (parqueo_3 == 1){
-  pagina +="      <th scope=\"row\">Espacio #3</th>\n";
+  pagina +="      <th scope=\"row\">Parqueo#3</th>\n";
   pagina +="      <td class=\"table table-hover\">Ocupado</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 else {
-  pagina +="      <th scope=\"row\">Espacio #3</th>\n";
+  pagina +="      <th scope=\"row\">Parqueo#3</th>\n";
   pagina +="      <td class=\"table table-hover\">Disponible</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 if (parqueo_4 == 1){
-  pagina +="      <th scope=\"row\">Espacio #4</th>\n";
+  pagina +="      <th scope=\"row\">Parqueo#4</th>\n";
   pagina +="      <td class=\"table table-hover\">Ocupado</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 else {
-  pagina +="      <th scope=\"row\">Espacio #4</th>\n";
+  pagina +="      <th scope=\"row\">Parqueo#4</th>\n";
   pagina +="      <td class=\"table table-hover\">Disponible</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 if (parqueo_5 == 1){
-  pagina +="    <th scope=\"row\">Espacio #5</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#5</th>\n";
   pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 else {
-  pagina +="    <th scope=\"row\">Espacio #5</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#5</th>\n";
   pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 if (parqueo_6 == 1){
-  pagina +="    <th scope=\"row\">Espacio #6</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#6</th>\n";
   pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 else {
-  pagina +="    <th scope=\"row\">Espacio #6</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#6</th>\n";
   pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 if (parqueo_7 == 1){
-  pagina +="    <th scope=\"row\">Espacio #7</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#7</th>\n";
   pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 else {
-  pagina +="    <th scope=\"row\">Espacio #7</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#7</th>\n";
   pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 if (parqueo_8 == 1){
-  pagina +="    <th scope=\"row\">Espacio #8</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#8</th>\n";
   pagina +="    <td class=\"table table-hover\">Ocupado</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
 }
 else {
-  pagina +="    <th scope=\"row\">Espacio #8</th>\n";
+  pagina +="    <th scope=\"row\">Parqueo#8</th>\n";
   pagina +="    <td class=\"table table-hover\">Disponible</td>\n";
   pagina +="    </tr>\n";
   pagina +="    <tr>\n";
@@ -322,7 +323,7 @@ else {
 pagina +="  </tbody>\n";
 pagina +="  </tfoot>\n";
 pagina +="  \t<tr>\n";
-pagina += "<th class=table-active scope=row>Parqueos Disponible</th>\n";
+pagina += "<th class=table-active scope=row>Parqueos Libres</th>\n";
 pagina += "<td class=table-info>";
 pagina += (int) parq_disp; //Variable de la operacion para mostrar el resultado. 
 pagina += "</td>\n";
@@ -348,8 +349,8 @@ String SendHTML(uint8_t led1stat) {
   ptr += "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
   ptr += "<title>LED Control</title>\n";
   ptr += "<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}\n";
-  ptr += "body{margin-top: 50px;} h1 {color: #444444;margin: 50px auto 30px;} h3 {color: #444444;margin-bottom: 50px;}\n";
-  ptr += ".button {display: block;width: 80px;background-color: #3498db;border: none;color: white;padding: 13px 30px;text-decoration: none;font-size: 25px;margin: 0px auto 35px;cursor: pointer;border-radius: 4px;}\n";
+  ptr += "body{margin-top: 50px;} h1 {color: #FFFFFF;margin: 50px auto 30px;} h3 {color: #444444;margin-bottom: 50px;}\n";
+  ptr += ".button {display: block;width: 80px;background-color: #000000;border: none;color: white;padding: 13px 30px;text-decoration: none;font-size: 25px;margin: 0px auto 35px;cursor: pointer;border-radius: 4px;}\n";
   ptr += ".button-on {background-color: #3498db;}\n";
   ptr += ".button-on:active {background-color: #2980b9;}\n";
   ptr += ".button-off {background-color: #34495e;}\n";
