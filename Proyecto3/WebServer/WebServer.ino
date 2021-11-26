@@ -17,8 +17,8 @@ uint8_t cont;
 uint8_t x;
 
 // SSID & Password
-const char* ssid = "TURBO-S101";  // Enter your SSID here
-const char* password = "8cf0185767";  //Enter your Password here
+const char* ssid = "Perraso";  // Enter your SSID here
+const char* password = "12345678";  //Enter your Password here
 
 WebServer server(80);  // Object of WebServer(HTTP port, 80 is defult)
 
